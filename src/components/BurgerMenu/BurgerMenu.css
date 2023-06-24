@@ -1,0 +1,116 @@
+.burger {
+  z-index: 12;
+  transition: 0.3s ease;
+}
+.burger-no {
+  display: none;
+}
+.burger__page {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.burger__container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 68%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
+.burger__close-button {
+  position: absolute;
+  top: 23px;
+  height: 32px;
+  right: 23px;
+  border: none;
+  background: none;
+  background-image: url('../../images/close-icon.svg');
+  width: 32px;
+  padding: 0;
+}
+
+.burger__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-top: 159px;
+}
+
+.burger-link {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  padding-bottom: 6px;
+  color: #000000;
+  transition: 0.3s ease;
+}
+
+.burger-link_active {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #000;
+  transition: 0.3s ease;
+}
+
+.burger__button_account {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 12px;
+  border: none;
+  border-radius: 20px;
+  background-color: #FAFAFA;
+  margin: 0 0 90px;
+  padding: 9.5px 43px 9.5px 11px;
+  color: #000;
+  text-decoration: none;
+  position: relative;
+  transition: opacity .2s linear;
+  cursor: pointer;
+  box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.08);
+}
+
+.burger__button_account::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  right: 0;
+  background: center / 11px no-repeat url(../../images/account-icon.svg) #F4F4F4;
+  width: 26px;
+  height: 26px;
+  border-radius: 50px;
+  margin-right: 3px;
+}
+
+@media screen and (min-width: 769px) {
+  .burger {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .burger__container {
+    width: 100%;
+  }
+
+  .burger__button_account {
+    margin: 0 0 46px;
+  }
+}
+

@@ -1,0 +1,16 @@
+.movies__page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #FAFAFA;
+  }
+  
+  .movies__content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .movies__message {
+    text-align: center;
+    padding: 40px 0;
+  }

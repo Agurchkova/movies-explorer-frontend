@@ -1,0 +1,35 @@
+.header {
+  padding: 18px 70px;
+  display: flex;
+  align-items: center;
+}
+
+.header__logo {
+  width: 38px;
+  height: 38px;
+  margin-right: 44px;
+  display: flex;
+  transition: 0.2s ease;
+}
+
+.header__logo:hover {
+  transform: scale(1.2);
+}
+
+.header__logo:focus-visible  {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3456F3;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    padding: 18px 30px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .header {
+    padding: 18px 14px;
+  }
+}
+
