@@ -38,9 +38,7 @@ function App() {
       <Routes>
         <Route 
           index element={
-            <Main 
-              isLoggedIn={isLoggedIn}
-            />
+            <Main />
           } 
         />
         <Route 
@@ -92,7 +90,6 @@ function App() {
           } 
         />
       </Routes>
-        
     </div>
   );
 }

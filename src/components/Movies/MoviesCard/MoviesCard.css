@@ -5,6 +5,7 @@
     overflow: hidden;
     margin: 0;
     padding: 0;
+    width: inherit;
   }
  
   .card__image-container {
@@ -37,7 +38,6 @@
   }
   
   .card__duration {
-    background-color: #FFFFFF;
     font-weight: 400;
     font-size: 11px;
     line-height: 13px;

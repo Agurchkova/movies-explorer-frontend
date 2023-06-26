@@ -1,6 +1,10 @@
-.profile__container {
+  .profile {
     display: flex;
     flex-direction: column;
+  }
+
+  .profile__container {
+    
     margin: 74px auto 70px;
     width: 410px;
   }

@@ -52,7 +52,6 @@ function Register () {
         <span>Уже зарегистрированы?</span>
         <Link to="/signin" className="register__signin-button">Войти</Link>
       </div>
-
     </section>
   )
 };

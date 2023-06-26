@@ -1,11 +1,9 @@
 import React from 'react';
 import "./Promo.css";
-import Header from "../Header/Header";
 
 function Promo(isLoggedIn) {
     return (
       <section className="promo">
-           <Header isLoggedIn={!isLoggedIn}/>
           <div className="promo__container">
           <h1 className="promo__title">
               Учебный проект студента факультета Веб&#8209;разработки.

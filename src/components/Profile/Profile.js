@@ -1,10 +1,11 @@
 import "./Profile.css";
 import Header from "../Header/Header";
 
-function Profile ({ isLoggedIn }) {
+function Profile ( {isLoggedIn}) {
   return (
-    <section>
-      <Header isLoggedIn={isLoggedIn} />
+    <>
+    <Header isLoggedIn={isLoggedIn} />
+    <section className="profile">
       <div className="profile__container">
         <h1 className="profile__title">Привет, Виталий!</h1>
         <form className="profile___form">
@@ -48,6 +49,7 @@ function Profile ({ isLoggedIn }) {
         </form>
       </div>
     </section>
+    </>
   )
 };
 

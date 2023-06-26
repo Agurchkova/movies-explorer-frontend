@@ -6,7 +6,7 @@ function BurgerMenu ({ onClose }) {
   const location = useLocation().pathname;
 
   return (
-    <div className={location === "/" ? "burger-no" : "burger" }>
+    <div className={location === "/" ? "burger__no" : "burger" }>
       <div className="burger__page">
         <div className="burger__container">
           <button 

@@ -12,7 +12,6 @@ function Portfolio () {
             href="https://github.com/Agurchkova/how-to-learn"> 
             Статичный сайт
           </a>
-          <span>&#x2197;</span>
         </li>
         <li>
           <a className="portfolio__link"
@@ -21,7 +20,6 @@ function Portfolio () {
             href="https://github.com/Agurchkova/russian-travel">
             Адаптивный сайт
           </a>
-          <span>&#x2197;</span>
         </li>
         <li>
           <a className="portfolio__link" 
@@ -30,7 +28,6 @@ function Portfolio () {
             href="https://github.com/Agurchkova/react-mesto-api-full-gha">
             Одностраничное приложение
           </a>
-          <span>&#x2197;</span>
         </li>
       </ul>
     </section>

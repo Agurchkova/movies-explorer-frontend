@@ -31,7 +31,7 @@ function MoviesCardList ({ cards, isLiked, onCardLike, isSavedMoviesPage }) {
           </ul>
           {!isSavedMoviesPage && (
         <button
-          className="card__button-more"
+          className="cards__button-more"
         >
           Ещё
         </button>

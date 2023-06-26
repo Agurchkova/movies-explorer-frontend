@@ -7,10 +7,9 @@ import Footer from "../Footer/Footer";
 
 function Movies ({ isLoggedIn, isLoading, cards, isLiked, onCardLike }) {
   return (
+    <>
+    <Header isLoggedIn={isLoggedIn} />
     <section className="movies__page">
-      <Header 
-        isLoggedIn={isLoggedIn}
-      />
       <div className="movies__content">
       <SearchForm />
       {isLoading && (
@@ -24,8 +23,9 @@ function Movies ({ isLoggedIn, isLoading, cards, isLiked, onCardLike }) {
       />
       }
       </div>
-      <Footer />
     </section>
+    <Footer />
+    </>
   )
 };
 
