@@ -23,24 +23,23 @@ function Navigation ({ isLoggedIn }) {
             <Link
               to="/movies"
               className={location === "/movies" 
-              ? "navigation__movies-link_active" 
+              ? "navigation__movies-link navigation__movies-link_active" 
               : "navigation__movies-link"}>
                 Фильмы
             </Link>
             <Link
               to="/saved-movies"
               className={location === "/saved-movies" 
-              ? "navigation__movies-link_active" 
+              ? "navigation__movies-link navigation__movies-link_active" 
               : "navigation__movies-link"}>
                 Сохранённые фильмы
             </Link>
           </div>
           <div>
-            <Link to="/profile">
-              <button 
-                className="navigation__account-button">
-                  Аккаунт
-              </button>
+            <Link 
+              to="/profile"
+              className="navigation__account-button">
+                Аккаунт
             </Link>
           </div>
         </>
@@ -50,18 +49,17 @@ function Navigation ({ isLoggedIn }) {
             className="navigation__signup-link">
               Регистрация
           </Link>
-          <Link to="/signin">
-            <button className="navigation__signin-button">
+          <Link to="/signin"
+            className="navigation__signin-button">
               Войти
-            </button>
           </Link>
         </div>
       )}
       {!isBurgerMenuOpen && isLoggedIn ? (
         <button
           className={location === "/" 
-          ? "burger__button burger__button_light" 
-          :"burger__button"}
+          ? "navigation__burger-button navigation__burger-button_light" 
+          : "navigation__burger-button"}
           onClick={toggleBurgerMenu}
         />
       ) : <BurgerMenu onClose={toggleBurgerMenu} />

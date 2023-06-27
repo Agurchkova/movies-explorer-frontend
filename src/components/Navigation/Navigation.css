@@ -67,6 +67,7 @@
   border-radius: 3px;
   cursor: pointer;
   transition: 0.2s ease;
+  text-decoration: none;
 }
 
 .navigation__signin-button:hover {
@@ -78,12 +79,8 @@
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3456F3;
 }
 
-.navigation__button:hover {
-  opacity: 0.8;
-}
-
 .navigation__account-button {
-  padding: 10px 36px 10px 11px;
+  padding: 10px 43px 10px 11px;
   margin-left: 50px;
   font-weight: 500;
   font-size: 13px;
@@ -92,6 +89,7 @@
   border: none;
   border-radius: 40px;
   background-color: #FAFAFA;
+  text-decoration: none;
   cursor: pointer;
   transition: 0.3s ease;
   box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.08);
@@ -100,8 +98,8 @@
 .navigation__account-button::after {
   content: '';
   position: absolute;
-  top: 10%;
-  right: 0.5%;
+  top: -4px;
+  right: 0.4%;
   background: center / 11px no-repeat url('../../images/account-icon.svg') #F4F4F4;
   width: 26px;
   height: 26px;
@@ -112,7 +110,7 @@
   opacity: 0.8;
 }
 
-.burger__button {
+.navigation__burger-button {
   background: none;
   background-image: url('../../images/burger_menu__icon.svg');
   width: 44px;
@@ -123,7 +121,7 @@
   display: none;
 }
 
-.burger__button_light {
+.navigation__burger-button_light {
   background-image: url('../../images/burger-menu-light.svg');
 }
 
@@ -133,7 +131,7 @@
     display: none;
   }
 
-  .burger__button {
+  .navigation__burger-button {
     display: block;
   }
 }

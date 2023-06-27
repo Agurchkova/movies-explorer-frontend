@@ -76,10 +76,6 @@
     .card {
       max-width: 339px;
     }
-  
-    .card__description {
-      padding: 25px 0 0;
-    }
 
     .card__image-container {
       width: 339px;
@@ -91,11 +87,7 @@
     .card {
       width: 300px;
     }
-
-    .card__description {
-      padding: 16px 0 0;
-    }
-  
+    
     .card__name {
       font-size: 12px;
       line-height: 15px;

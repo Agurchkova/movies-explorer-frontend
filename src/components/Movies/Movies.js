@@ -9,7 +9,7 @@ function Movies ({ isLoggedIn, isLoading, cards, isLiked, onCardLike }) {
   return (
     <>
     <Header isLoggedIn={isLoggedIn} />
-    <section className="movies__page">
+    <section className="movies">
       <div className="movies__content">
       <SearchForm />
       {isLoading && (

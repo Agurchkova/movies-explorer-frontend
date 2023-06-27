@@ -1,6 +1,7 @@
   .profile {
     display: flex;
     flex-direction: column;
+    background-color: #FAFAFA;
   }
 
   .profile__container {
@@ -50,6 +51,7 @@
     font-weight: 400;
     width: 80%;
     outline: none;
+    background-color: #FAFAFA;
   }
   
   .profile__buttons {
