@@ -15,16 +15,22 @@ function BurgerMenu ({ onClose }) {
             onClick={() => onClose()}
           />
           <div className="burger__menu">
-            <NavLink exact to="/" 
-              className={location === "/" ? "burger__menu-link burger__menu-link_active" : "burger__menu-link"}>
+            <NavLink to="/" 
+              className={location === "/" 
+              ? "burger__menu-link burger__menu-link_active" 
+              : "burger__menu-link"}>
               Главная
             </NavLink>
             <NavLink to="/movies"
-              className={location === "/movies" ? "burger__menu-link burger__menu-link_active" : "burger__menu-link"}>
+              className={location === "/movies" 
+              ? "burger__menu-link burger__menu-link_active" 
+              : "burger__menu-link"}>
               Фильмы
             </NavLink>
             <NavLink to="/saved-movies" 
-              className={location === "/saved-movies" ? "burger__menu-link burger__menu-link_active" : "burger__menu-link"}>
+              className={location === "/saved-movies" 
+              ? "burger__menu-link burger__menu-link_active" 
+              : "burger__menu-link"}>
               Сохранённые фильмы
             </NavLink>
           </div>

@@ -7,7 +7,7 @@ function NotFoundPage () {
 
   return (
     <div className="page__notfound">
-        <div className="page__continer">
+        <div className="page__container">
         <p className="page__status">404</p>
         <h1 className="page__text">Страница не найдена</h1>
         <button

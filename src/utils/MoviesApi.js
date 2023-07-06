@@ -5,7 +5,7 @@ class MoviesApi {
     this._movieUrl = movieUrl;
   }
 
-  _parseResponse(res) {
+  _checkResponse(res) {
     if (res.ok) {
       return res.json();
     }
@@ -14,7 +14,7 @@ class MoviesApi {
 
   getMovies() {
     return fetch(this._movieUrl)
-      .then(res => this._parseResponse(res));
+      .then(res => this._checkResponse(res));
   }
 }
 

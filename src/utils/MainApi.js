@@ -5,7 +5,7 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-const checkResponse = (res) => {
+const _checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
@@ -21,7 +21,7 @@ export const registerSignUp = ({ name, email, password }) => {
         email,
         password
       }),
-    }).then((res) => checkResponse(res));
+    }).then((res) => _checkResponse(res));
   };
 
 export const authorizeSignIn = ({ email, password }) => {
@@ -29,20 +29,20 @@ export const authorizeSignIn = ({ email, password }) => {
     method: 'POST',
     headers,
     body: JSON.stringify({ email, password }),
-  }).then((res) => checkResponse(res));
+  }).then((res) => _checkResponse(res));
 };
 
-export const getContent = (jwt) => {
+export const getData = (jwt) => {
   return fetch(`${BASE_API_URL}/users/me`, {
     method: 'GET',
     headers: {
       ...headers,
       'Authorization': `Bearer ${jwt}`,
     }
-  }).then((res) => checkResponse(res));
+  }).then((res) => _checkResponse(res));
 };
 
-export const updateUserInfo = async (data, jwt) => {
+export const updateUserData = (data, jwt) => {
   return fetch(`${BASE_API_URL}/users/me`, {
     method: 'PATCH',
     headers: {
@@ -53,17 +53,17 @@ export const updateUserInfo = async (data, jwt) => {
       name: data.name,
       email: data.email,
     }),
-  }).then((res) => checkResponse(res));
+  }).then((res) => _checkResponse(res));
 };
 
-export const getSavedMovies = async (jwt) => {
+export const getSavedMovies = (jwt) => {
   return fetch(`${BASE_API_URL}/movies`, {
     method: 'GET',
     headers: {
       ...headers,
       'Authorization': `Bearer ${jwt}`,
     }
-  }).then((res) => checkResponse(res));
+  }).then((res) => _checkResponse(res));
 };
 
 export const saveMovie = async (movie, jwt) => {
@@ -74,27 +74,28 @@ export const saveMovie = async (movie, jwt) => {
       'Authorization': `Bearer ${jwt}`,
     },
     body: JSON.stringify({
-      country: movie.country,
-      director: movie.director,
+      country: movie.country ? movie.country : "Страна не указана",
+      director: movie.director ? movie.director : "Режиссер не указан",
       duration: movie.duration,
-      year: movie.year,
-      description: movie.description,
+      year: movie.year ? movie.year : "Год не указан",
+      description: movie.description ? movie.description : "Описание не указано",
       image: 'https://api.nomoreparties.co/' + movie.image.url,
-      trailerLink: movie.trailerLink,
+      trailerLink: movie.trailerLink ? movie.trailerLink : "Трейлер отсутствует",
       thumbnail: 'https://api.nomoreparties.co/' + movie.image.formats.thumbnail.url,
       movieId: movie.id,
-      nameRU: movie.nameRU || movie.nameEN,
-      nameEN: movie.nameEN || movie.nameRU,
+      owner: movie.owner,
+      nameRU: movie.nameRU ? movie.nameRU : "Название на русском языке не указано",
+      nameEN: movie.nameEN ? movie.nameEN : "Назввание на английском языке не указано",
     }),
-  }).then((res) => checkResponse(res));
+  }).then((res) => _checkResponse(res));
 };
 
-export const deleteMovie = async (id, jwt) => {
+export const deleteMovie = (id, jwt) => {
   return fetch(`${BASE_API_URL}/movies/${id}`, {
     method: 'DELETE',
     headers: {
       ...headers,
       'Authorization': `Bearer ${jwt}`,
     },
-  }).then((res) => checkResponse(res));
+  }).then((res) => _checkResponse(res));
 };

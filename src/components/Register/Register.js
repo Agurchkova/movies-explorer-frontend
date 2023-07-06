@@ -18,9 +18,9 @@ function Register ({ onRegister }) {
       <div className="register__header">
         <Link to="/">
           <img
+            className="register__logo"
             src={logo}
             alt="Логотип"
-            className="register__logo"
           />
         </Link>
         <h1 
@@ -81,13 +81,13 @@ function Register ({ onRegister }) {
             className="register__error">{errors.password}
           </span>
           <button 
-            className="register__button" 
+            className="register__signup-button" 
             type="submit" 
             disabled={!isValid}>Зарегистрироваться
           </button>
         </form>
         <div 
-          className="register__bottom">
+          className="register__caption">
             <span>
               Уже зарегистрированы?
             </span>

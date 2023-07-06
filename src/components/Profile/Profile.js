@@ -1,14 +1,11 @@
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import "./Profile.css";
 import Header from "../Header/Header";
-import Form from "../Form/Form";
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile ({ onUpdateUser, onSignOut, isLoggedIn, onLoading }) {
+function Profile ({ onUpdateUser, onSignOut, isLoggedIn }) {
   const currentUser = useContext(CurrentUserContext);
-  const [isCurrentUser, setUserDifference] = useState(true);
-  const [isEditingBegun, setEditingStatus] = useState(false);
   const { values, handleChange, isValid, resetForm } = useFormWithValidation();
 
   const handleSubmit = (event) => {
@@ -19,40 +16,23 @@ function Profile ({ onUpdateUser, onSignOut, isLoggedIn, onLoading }) {
     });
   };
 
-  // useEffect(() => {
-  //   currentUser ? resetForm(currentUser) : resetForm();
-  // }, [currentUser, resetForm]);
-
-  // const isVisible = (!isValid || (currentUser.name === values.name 
-  // && currentUser.email === values.email));
-
   useEffect(() => {
-    currentUser.name !== values.name || currentUser.email !== values.email
-      ? setUserDifference(false)
-      : setUserDifference(true);
-  }, [currentUser, values]);
+    currentUser ? resetForm(currentUser) : resetForm();
+  }, [currentUser, resetForm]);
 
-  useEffect(() => {
-    resetForm(false, currentUser);
-  }, [resetForm, currentUser]);
+  const isVisible = (!isValid || (currentUser.name === values.name 
+  && currentUser.email === values.email));
 
- function handleEditClick() {
-    setEditingStatus(!isEditingBegun);
-  }
   return (
     <>
     <Header isLoggedIn={isLoggedIn} />
     <section className="profile">
       <div className="profile__container">
         <h1 className="profile__title">Привет, {currentUser.name}!</h1>
-        <Form 
-            name="profile___form" 
-            onSubmit={handleSubmit}
-            isValid={isValid}
-            isCurrentUser={isCurrentUser}
-            isEditingBegun={isEditingBegun}
-            buttonText={onLoading ? "Сохранение..." : "Сохранить"}>
-          <div className="profile__value">
+        <form 
+            className="profile___form form" 
+            onSubmit={handleSubmit}>
+          <div className="profile__field">
             <label className="profile__label">
               Имя
             </label>
@@ -64,11 +44,10 @@ function Profile ({ onUpdateUser, onSignOut, isLoggedIn, onLoading }) {
               placeholder="name"
               value={values.name || ''}
               onChange={handleChange}
-              disabled={isEditingBegun && !onLoading ? false : true}
             />
           </div>
-          <div className="profile__line"></div>
-          <div className="profile__value">
+          <div className="profile__border-line"></div>
+          <div className="profile__field">
             <label className="profile__label">
               E-mail
             </label>
@@ -80,16 +59,13 @@ function Profile ({ onUpdateUser, onSignOut, isLoggedIn, onLoading }) {
               placeholder="email"
               value={values.email || ''}
               onChange={handleChange}
-              disabled={isEditingBegun && !onLoading ? false : true}
             />
           </div>
-          <div className={`profile__buttons ${isEditingBegun ? "profile__buttons_hidden" : ""
-          }`}>
+          <div className="profile__buttons">
             <button
               className="profile__edit-button"
               type="submit"
-              // disabled={isVisible}
-              onClick={handleEditClick}
+              disabled={isVisible}
             >
               Редактировать
             </button>
@@ -101,7 +77,7 @@ function Profile ({ onUpdateUser, onSignOut, isLoggedIn, onLoading }) {
               Выйти из аккаунта
             </button>
           </div>
-        </Form>
+        </form>
       </div>
     </section>
     </>

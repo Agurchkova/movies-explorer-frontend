@@ -20,9 +20,9 @@ function Login ({ onLogin }) {
       <div className="login__header">
         <Link to="/">
           <img
+            className="login__logo"
             src={logo}
             alt="Логотип"
-            className="login__logo"
           />
         </Link>
         <h1 
@@ -66,19 +66,19 @@ function Login ({ onLogin }) {
             className="login__error">{errors.password}
           </span>
           <button 
-            className="login__button" 
+            className="login__signin-button" 
             type="submit" 
             disabled={!isValid}>Войти
           </button>
         </form>
         <div 
-          className="login__bottom">
+          className="login__caption">
             <span>
               Ещё не зарегистрированы?
             </span>
           <Link 
             to="signup" 
-            className="login__link">Регистрация
+            className="login__signup-button">Регистрация
           </Link>
         </div>
     </section>

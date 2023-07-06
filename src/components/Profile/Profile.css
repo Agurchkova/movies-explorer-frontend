@@ -19,18 +19,18 @@
     padding: 0;
   }
   
-  .form_type_profile__form {
+  .profile__form {
     width: 100%;
     font-size: 11px;
     line-height: 13px;
   }
   
-  .profile__line {
+  .profile__border-line {
     border-bottom: 1px solid #E8E8E8;
     width: 100%;
   }
   
-  .profile__value {
+  .profile__field {
     display: flex;
     justify-content: space-between;
     padding: 16px 0;
@@ -63,10 +63,6 @@
     margin-top: 220px;
   }
   
-  .profile__buttons_hidden {
-    display: none;
-  }
-
   .profile__edit-button {
     border: none;
     background: none;

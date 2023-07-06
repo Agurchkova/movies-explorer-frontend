@@ -75,8 +75,9 @@ function MoviesCardList ({
               />
             })}
           </ul>
-        {!isSavedMoviesPage && showMovieList && searchedMoviesCount !== showMovieList.length && (
-        <button
+        {!isSavedMoviesPage && showMovieList && 
+        searchedMoviesCount !== showMovieList.length && 
+        (<button
           className="cards__button-more"
           type="button" 
           name="more"

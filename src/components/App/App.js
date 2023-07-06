@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate, useLocation, redirect } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Main from "../Main/Main";
 import Register from "../Register/Register";
@@ -15,55 +15,40 @@ import * as MainApi from "../../utils/MainApi";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupIsOpen, setPopupIsOpen] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     handleTokenCheck();
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
-  const handleTokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
-    MainApi.getContent(jwt)
-      .then((data) => {
-        setIsLoggedIn(true);
-        setCurrentUser(data)
-        navigate("/movies", { replace: true });
-      })
-      .catch((err) => console.log(err));
-      MainApi.getSavedMovies(jwt)
-      .then((movies) => {
-        setSavedMovies(movies)
-      })
-      .catch((err) => console.log(err));
-  };
+  /// Функции авторизации пользователя
 
-  /*--------------------- Authorization ---------------------- */
-
-  const handleRegistration = async ({ name, email, password }) => {
-    return MainApi.registerSignUp({ name, email, password })
+  // handleRegisterSignUp
+  const handleRegisterSignUp = (data) => {
+    return MainApi.registerSignUp(data)
       .then(() => {
-        handleAuthorization({ email, password });
+        handleAuthorizeSignIn(data);
       })
       .catch(error => {
           setPopupMessage(error);
-          setIsPopupOpen(true);
+          setPopupIsOpen(true);
       });
   };
 
-  const handleAuthorization = async (data) => {
+  // handleAuthorizeSignIn
+  const handleAuthorizeSignIn = (data) => {
     return MainApi.authorizeSignIn(data)
       .then((data) => {
         setIsLoggedIn(true);
         localStorage.setItem('jwt', data.token);
         navigate("/movies", {replace: true});
-        Promise.all([MainApi.getContent(data.token), MainApi.getSavedMovies(data.token)])
+        Promise.all([MainApi.getData(data.token), MainApi.getSavedMovies(data.token)])
           .then(([userInfo, userMovies]) => {
             setCurrentUser(userInfo);
             localStorage.setItem('savedMovies', JSON.stringify(userMovies));
@@ -78,12 +63,13 @@ function App() {
       })
       .catch(error => {
         setPopupMessage(error);
-        setIsPopupOpen(true);
+        setPopupIsOpen(true);
       });
   };
 
-  /* --------------------- Movie cards' functions --------------------- */
+  /// Функции с фильмами
 
+  // handleSaveMovie
   const handleSaveMovie = (movie) => {
     const jwt = localStorage.getItem('jwt');
     const handledMovie = savedMovies.find(item => {
@@ -94,13 +80,14 @@ function App() {
     if (isLiked) {
       MainApi.deleteMovie(id, jwt)
         .then((card) => {
-          const updatedSavedMovies = savedMovies.filter(item => card._id !== item._id);
+          const updatedSavedMovies = savedMovies
+          .filter(item => card._id !== item._id);
           localStorage.setItem('savedMovies', updatedSavedMovies);
           setSavedMovies(updatedSavedMovies);
         })
         .catch(error => {
           setPopupMessage(error);
-          setIsPopupOpen(true);
+          setPopupIsOpen(true);
         })
         .finally(() => {
           setIsLoading(false);
@@ -112,11 +99,12 @@ function App() {
         })
         .catch((error) => {
           setPopupMessage(error);
-          setIsPopupOpen(true);
+          setPopupIsOpen(true);
         })
     }
   }
 
+  // handleDeleteMovie
   const handleDeleteMovie = (movie) => {
     setIsLoading(true);
     const jwt = localStorage.getItem('jwt');
@@ -128,50 +116,69 @@ function App() {
       })
       .catch(error => {
         setPopupMessage(error);
-        setIsPopupOpen(true);
+        setPopupIsOpen(true);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-  /*--------------- Popup function ------------ */
+  /// Функции попапа
 
+  //handleClosePopup
   const handleClosePopup = () => {
-    setIsPopupOpen(false);
+    setPopupIsOpen(false);
     setPopupMessage('');
   };
 
-  /* Update user's email and name */
+  /// Функции для обновления данных пользователя
 
-  const handleUpdateUser = (newUserInfo) => {
+  //handleUpdateUserInfo
+  const handleUpdateUserInfo = (updatedData) => {
     const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    MainApi.updateUserInfo(newUserInfo, jwt)
-      .then((data) => {
-        setCurrentUser(data);
+    MainApi.updateUserData(updatedData, jwt)
+      .then((info) => {
+        setCurrentUser(info);
         setPopupMessage('Профиль успешно отредактирован!');
-        setIsPopupOpen(true);
+        setPopupIsOpen(true);
       })
-      .catch(error => {
-        setPopupMessage('При обновлении профиля произошла ошибка');
-        setIsPopupOpen(true);
+      .catch(err => {
+        console.log(err);
+        setPopupMessage({ message: 'При обновлении профиля произошла ошибка' });
+        setPopupIsOpen(true);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-  // log out function
-
-  const handleSignOut = () => {
-    localStorage.clear();
+  //handleLogOut
+  const handleLogOut = () => {
+    setIsLoggedIn(false);
     setCurrentUser({});
     setPopupMessage('');
     setSavedMovies([]);
-    setIsLoggedIn(false);
-    navigate('/');
+    localStorage.clear();
+    navigate('/', { replace: true })
   };
+
+  // handleTokenCheck
+  const handleTokenCheck = () => {
+    const jwt = localStorage.getItem('jwt');
+    MainApi.getData(jwt)
+      .then((data) => {
+        setIsLoggedIn(true);
+        setCurrentUser(data)
+        navigate('/', { replace: true });
+      })
+      .catch((err) => console.log(err));
+    MainApi.getSavedMovies(jwt)
+      .then((movies) => {
+        setSavedMovies(movies)
+      })
+      .catch((err) => console.log(err));
+    };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -186,7 +193,7 @@ function App() {
             path="/signup"
             element={
               <Register
-                onRegister={handleRegistration}
+                onRegister={handleRegisterSignUp}
                 isLoggedIn={isLoggedIn}
               />
             }
@@ -195,7 +202,7 @@ function App() {
             path="/signin"
             element={
               <Login
-                onLogin={handleAuthorization}
+                onLogin={handleAuthorizeSignIn}
                 isLoggedIn={isLoggedIn}
               />
             }
@@ -210,7 +217,7 @@ function App() {
                   onSave={handleSaveMovie}
                   onDelete={handleDeleteMovie}
                   setPopupMessage={setPopupMessage}
-                  setIsPopupOpen={setIsPopupOpen}
+                  setPopupIsOpen={setPopupIsOpen}
               />
             }
           />
@@ -223,7 +230,7 @@ function App() {
                   savedMovies={savedMovies}
                   onDelete={handleDeleteMovie}
                   setPopupMessage={setPopupMessage}
-                  setIsPopupOpen={setIsPopupOpen}
+                  setPopupIsOpen={setPopupIsOpen}
               />
             }
           />
@@ -238,15 +245,15 @@ function App() {
                 component={Profile} 
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
-                  onUpdateUser={handleUpdateUser}
-                  onSignOut={handleSignOut}
+                  onUpdateUser={handleUpdateUserInfo}
+                  onSignOut={handleLogOut}
               />
             }
           />
         </Routes>
         <InfoToolTip
-          isOpen={isPopupOpen}
-          onClose={handleClosePopup}
+          isPopupOpen={popupIsOpen}
+          onPopupClose={handleClosePopup}
           message={popupMessage}
         />
       </div>

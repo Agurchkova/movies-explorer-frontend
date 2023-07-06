@@ -16,7 +16,7 @@ function Movies ({
   onSave,
   isLoading,
   setPopupMessage,
-  setIsPopupOpen }) {
+  setPopupIsOpen }) {
 
   const [shortMovies, setShortMovies] = useState(false);
   const [initialMovies, setInitialMovies] = useState([]);
@@ -30,7 +30,7 @@ function Movies ({
     if (moviesList.length === 0) {
       setNotFound(true);
       setPopupMessage('Ничего не найдено');
-      setIsPopupOpen(true);
+      setPopupIsOpen(true);
     } else {
       setNotFound(false);
     }
@@ -44,7 +44,7 @@ function Movies ({
   const handleSearchSubmit = (inputValue) => {
     if (inputValue.trim().length === 0) {
       setPopupMessage('Необходимо ввести ключевое слово');
-      setIsPopupOpen(true);
+      setPopupIsOpen(true);
       return;
     }
 
@@ -66,7 +66,7 @@ function Movies ({
         })
         .catch((error) => {
           setPopupMessage(error);
-          setIsPopupOpen(true);
+          setPopupIsOpen(true);
         })
         .finally(() => onLoading(false));
     } else {

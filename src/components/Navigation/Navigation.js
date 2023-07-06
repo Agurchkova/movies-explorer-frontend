@@ -44,7 +44,7 @@ function Navigation ({ isLoggedIn }) {
           </div>
         </>
       ) : (
-        <div className="navigation__auth">
+        <div className="navigation__block">
           <Link to="/signup" 
             className="navigation__signup-link">
               Регистрация

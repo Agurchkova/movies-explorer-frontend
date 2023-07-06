@@ -13,7 +13,7 @@ function SavedMovies ({ isLoggedIn,  savedMovies,
   isLoading,
   onDelete,
   setPopupMessage,
-  setIsPopupOpen }) {
+  setPopupIsOpen }) {
 
   const [shortMovies, setShortMovies] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -25,7 +25,7 @@ function SavedMovies ({ isLoggedIn,  savedMovies,
   const handleSearchSubmit = (inputValue) => {
     if (inputValue.trim().length === 0) {
       setPopupMessage('Нужно ввести ключевое слово');
-      setIsPopupOpen(true);
+      setPopupIsOpen(true);
       return;
     }
 
@@ -34,7 +34,7 @@ function SavedMovies ({ isLoggedIn,  savedMovies,
     if (moviesList.length === 0) {
       setNotFound(true);
       setPopupMessage('Ничего не найдено.');
-      setIsPopupOpen(true);
+      setPopupIsOpen(true);
     } else {
       setNotFound(false);
       setFilteredMovies(moviesList);
@@ -92,7 +92,7 @@ function SavedMovies ({ isLoggedIn,  savedMovies,
               movies={showedMovies}
               savedMovies={savedMovies}
               onDelete={onDelete} 
-              />
+            />
           )}
         </div>
       </section>

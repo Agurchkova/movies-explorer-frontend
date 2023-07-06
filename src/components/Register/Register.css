@@ -70,7 +70,7 @@
     margin-bottom: 5px;
   }
   
-  .register__button {
+  .register__signup-button {
     width: 100%;
     border: none;
     border-radius: 3px;
@@ -87,15 +87,15 @@
     transition: 0.2s ease;
   }
 
-  .register__button:not([disabled]):hover {
+  .register__signup-button:not([disabled]):hover {
     opacity: 0.8;
   }
   
-  .register__button:disabled {
+  .register__signup-button:disabled {
     background-color:#A0A0A0;
   }
   
-  .register__bottom {
+  .register__caption {
     color: #A0A0A0;
     font-weight: 400;
     font-size: 14px;
@@ -129,7 +129,7 @@
       margin-bottom: 50px;
     }
   
-    .register__button {
+    .register__signup-button {
       font-size: 12px;
       line-height: 15px;
       margin-top: 222px;

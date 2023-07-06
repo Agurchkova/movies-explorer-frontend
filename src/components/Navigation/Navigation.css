@@ -39,7 +39,7 @@
   text-decoration: none;
 }
 
-.navigation__auth {
+.navigation__block {
   display: flex;
   align-items: center;
   justify-content: flex-end;

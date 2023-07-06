@@ -1,6 +1,5 @@
 export const MOVIES_API_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 export const BASE_API_URL = 'https://api.agurchkova.movies.nomoredomains.rocks';
-// export const BASE_API_URL = 'http://localhost:4000';
 
 export const SHORT_MOVIE_DURATION = 40;
 export const MINUTES_IN_HOUR = 60;

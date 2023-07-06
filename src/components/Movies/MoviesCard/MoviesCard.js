@@ -1,7 +1,5 @@
 import "./MoviesCard.css";
 import { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
-import { convertMinToHours } from '../../../utils/utils';
 import useScreenWidth from '../../../hooks/useScreenWidth';
 
 function MoviesCard ({  
@@ -11,7 +9,6 @@ function MoviesCard ({
   onDelete,
   saved }) {
 
-    const location = useLocation();
    // изменения формата времени
    function handleDurationFormat(mins) {
       return `${Math.floor(mins / 60)}ч ${mins % 60}м`;
@@ -72,10 +69,6 @@ function MoviesCard ({
             type='button'
             onClick={handleSaveCard}
           />
-        )}
-        {isMobile && isSavedMoviesPage && (
-          <button className='card__button_delete card__button_active' 
-          type='button' onClick={handleDeleteCard} />
         )}
         {isMobile && !isSavedMoviesPage && !saved && (
           <button
