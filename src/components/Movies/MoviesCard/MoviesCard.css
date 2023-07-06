@@ -72,13 +72,12 @@
     cursor: pointer;
   }
   
+  .card__button_hidden {
+    display: none;
+  }
   @media screen and (max-width: 768px) {
     .card {
       max-width: 339px;
-    }
-  
-    .card__description {
-      padding: 25px 0 0;
     }
 
     .card__image-container {
@@ -90,10 +89,6 @@
   @media screen and (max-width: 320px) {
     .card {
       width: 300px;
-    }
-
-    .card__description {
-      padding: 16px 0 0;
     }
   
     .card__name {

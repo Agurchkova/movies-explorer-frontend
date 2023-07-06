@@ -1,12 +1,14 @@
 import "./FilterCheckbox.css";
 
-function FilterCheckbox () {
+function FilterCheckbox ({ isMovieFilter, onFilter }) {
   return (
     <section className="filter">
       <input
         className="filter__checkbox"
         type="checkbox"
-        id="checkbox"
+        name="checkbox"
+        onChange={onFilter}
+        checked={isMovieFilter}
       />
       <label
         className="filter__label"

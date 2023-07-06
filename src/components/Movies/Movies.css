@@ -1,4 +1,4 @@
-.movies__page {
+.movies {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -10,7 +10,3 @@
     flex-direction: column;
   }
   
-  .movies__message {
-    text-align: center;
-    padding: 40px 0;
-  }

@@ -1,5 +1,5 @@
 import "./AboutMe.css";
-import photo from "../../images/photo hh.jpeg";
+import photo from "../../images/photo_hh.jpeg";
 
 function AboutMe () {
   return (

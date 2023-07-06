@@ -1,9 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import useFormWithValidation from "../../hooks/useFormWithValidation";
 import logo from "../../images/logo.svg";
 
-function Login () {
+function Login ({ onLogin }) {
+  const { values, errors, handleChange, isValid } = useFormWithValidation();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!values.email || !values.password) {
+      return;
+    }
+    onLogin(values);
+  };
+
   return (
     <section className="login">
       <div className="login__header">
@@ -14,33 +25,62 @@ function Login () {
             className="login__logo"
           />
         </Link>
-        <h1 className="login__title">Рады видеть!</h1>
+        <h1 
+          className="login__title">Рады видеть!
+        </h1>
       </div>
-      <form className="login__form form">
-        <label className="login__label" htmlFor="email">E-mail</label>
-        <input
-          className="login__input"
-          type="email"
-          id="email"
-          name="email"
-          required
-        />
-        <span className="login__error">Что-то пошло не так...</span>
-        <label className="login__label" htmlFor="password">Пароль</label>
-        <input
-          className="login__input"
-          type="password"
-          id="password"
-          name="password"
-          required
-        />
-        <span className="login__error">Что-то пошло не так...</span>
-        <button className="login__button" type="submit">Войти</button>
-      </form>
-      <div className="login__bottom">
-        <span>Ещё не зарегистрированы?</span>
-        <Link to="signup" className="login__link">Регистрация</Link>
-      </div>
+      <form 
+        className="login__form form" 
+          onSubmit={handleSubmit}>
+          <label 
+            className="login__label" 
+            htmlFor="email">E-mail
+          </label>
+          <input
+            className="login__input"
+            id="email"
+            type="email"
+            name="email"
+            required
+            value={values.email || ''}
+            onChange={handleChange}
+          />
+          <span 
+            className="login__error">{errors.email}
+          </span>
+          <label 
+            className="login__label" 
+            htmlFor="password">Пароль
+          </label>
+          <input
+            className="login__input"
+            id="password"
+            type="password"
+            name="password"
+            minLength="8"
+            required
+            value={values.password || ''}
+            onChange={handleChange}
+          />
+          <span 
+            className="login__error">{errors.password}
+          </span>
+          <button 
+            className="login__button" 
+            type="submit" 
+            disabled={!isValid}>Войти
+          </button>
+        </form>
+        <div 
+          className="login__bottom">
+            <span>
+              Ещё не зарегистрированы?
+            </span>
+          <Link 
+            to="signup" 
+            className="login__link">Регистрация
+          </Link>
+        </div>
     </section>
   )
 };
