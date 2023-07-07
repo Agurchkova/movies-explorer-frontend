@@ -70,7 +70,7 @@ function SearchForm ({
         <>
         <form 
           className="search__form form" 
-          name="search-saved-movie-form"
+          name="search-movie-form"
           onSubmit={handleFormSubmit} noValidate>
             <button
               className="search__button-left"
@@ -106,4 +106,3 @@ function SearchForm ({
 };
 
 export default SearchForm;
-

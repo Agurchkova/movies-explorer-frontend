@@ -52,7 +52,7 @@ function MoviesCardList ({
       className="cards"
       aria-label="Секция с карточками фильмов"
     >
-      {movies.length === 0 ? (
+      {/* {movies.length === 0 ? (
         <p className="cards__list__not-found">
           Извините, но&nbsp;запрошенный поиск не&nbsp;дал результатов. 
           Расширьте критерии поиска и&nbsp;попробуйте снова
@@ -61,9 +61,10 @@ function MoviesCardList ({
         <>
           <ul
             className={`cards__list ${
-              movies.length > 4 ? "cards__list_space-evenly" : ""
-            }`}
-          >
+              movies.length > 3 ? "cards__list_space-evenly" : ""
+            }`} */}
+          <ul
+            className="cards__list">
             {showMovieList.sort().map(movie => {
               return <MoviesCard
                 key={isSavedMoviesPage ? movie.movieId : movie.id}
@@ -75,19 +76,17 @@ function MoviesCardList ({
               />
             })}
           </ul>
-        {!isSavedMoviesPage && showMovieList && 
-        searchedMoviesCount !== showMovieList.length && 
-        (<button
-          className="cards__button-more"
-          type="button" 
-          name="more"
+          {/* && showMovieList && searchedMoviesCount !== showMovieList.length */}
+          {!isSavedMoviesPage && (
+        <button
+          className="cards__button"
           onClick={handleMoreClick}
         >
           Ещё
         </button>
       )}
-        </>
-      )}
+        {/* </> */}
+      {/* // )} */}
     </section>
   )
 };

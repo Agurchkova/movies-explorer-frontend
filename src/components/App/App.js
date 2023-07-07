@@ -47,18 +47,28 @@ function App() {
       .then((data) => {
         setIsLoggedIn(true);
         localStorage.setItem('jwt', data.token);
-        navigate("/movies", {replace: true});
+        navigate("/movies", {replace: true})
         Promise.all([MainApi.getData(data.token), MainApi.getSavedMovies(data.token)])
           .then(([userInfo, userMovies]) => {
             setCurrentUser(userInfo);
             localStorage.setItem('savedMovies', JSON.stringify(userMovies));
             setSavedMovies(userMovies);
+            console.log(userMovies)
+
+            userMovies.map((m) => {
+              MainApi.deleteMovie(m.movieId, data.token)
+              .then((card) => {
+                console.log("DELETE CARD", card)
+              })
+              return(m)
+            })
           })
           .catch(error => {
             console.log(error);
           })
           .finally(() => {
             setIsLoading(false);
+
           })
       })
       .catch(error => {
@@ -66,6 +76,23 @@ function App() {
         setPopupIsOpen(true);
       });
   };
+
+    // handleTokenCheck
+    const handleTokenCheck = () => {
+      const jwt = localStorage.getItem('jwt');
+      MainApi.getData(jwt)
+        .then((data) => {
+          setIsLoggedIn(true);
+          setCurrentUser(data)
+          navigate('/movies', { replace: true });
+        })
+        .catch((err) => console.log(err));
+      MainApi.getSavedMovies(jwt)
+        .then((movies) => {
+          setSavedMovies(movies)
+        })
+        .catch((err) => console.log(err));
+      };
 
   /// Функции с фильмами
 
@@ -80,8 +107,7 @@ function App() {
     if (isLiked) {
       MainApi.deleteMovie(id, jwt)
         .then((card) => {
-          const updatedSavedMovies = savedMovies
-          .filter(item => card._id !== item._id);
+          const updatedSavedMovies = savedMovies.filter(item => card._id !== item._id);
           localStorage.setItem('savedMovies', updatedSavedMovies);
           setSavedMovies(updatedSavedMovies);
         })
@@ -95,7 +121,9 @@ function App() {
     } else {
       MainApi.saveMovie(movie, jwt)
         .then((newSavedMovie) => {
-          setSavedMovies((prev) => [...prev, newSavedMovie]);
+//          setSavedMovies((prev) => [...prev, newSavedMovie]);
+          setSavedMovies((prev) => [newSavedMovie]);
+
         })
         .catch((error) => {
           setPopupMessage(error);
@@ -103,7 +131,6 @@ function App() {
         })
     }
   }
-
   // handleDeleteMovie
   const handleDeleteMovie = (movie) => {
     setIsLoading(true);
@@ -163,23 +190,6 @@ function App() {
     navigate('/', { replace: true })
   };
 
-  // handleTokenCheck
-  const handleTokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
-    MainApi.getData(jwt)
-      .then((data) => {
-        setIsLoggedIn(true);
-        setCurrentUser(data)
-        navigate('/', { replace: true });
-      })
-      .catch((err) => console.log(err));
-    MainApi.getSavedMovies(jwt)
-      .then((movies) => {
-        setSavedMovies(movies)
-      })
-      .catch((err) => console.log(err));
-    };
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -226,7 +236,6 @@ function App() {
                 component={SavedMovies} 
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
-                  loggedIn={isLoggedIn}
                   savedMovies={savedMovies}
                   onDelete={handleDeleteMovie}
                   setPopupMessage={setPopupMessage}

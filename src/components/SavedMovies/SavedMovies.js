@@ -9,37 +9,39 @@ import "./SavedMovies.css";
 
 import { filterMovies, filterShortMovies } from '../../utils/utils';
 
-function SavedMovies ({ isLoggedIn,  savedMovies,
+function SavedMovies ({ 
+  isLoggedIn,  
+  savedMovies,
   isLoading,
   onDelete,
   setPopupMessage,
   setPopupIsOpen }) {
 
-  const [shortMovies, setShortMovies] = useState(false);
-  const [notFound, setNotFound] = useState(false);
-  const [showedMovies, setShowedMovies] = useState(savedMovies);
-  const [filteredMovies, setFilteredMovies] = useState(showedMovies);
-  const [searchQuery, setSearchQuery] = useState('');
-  const location = useLocation();
+    const [shortMovies, setShortMovies] = useState(false);
+    const [notFound, setNotFound] = useState(false);
+    const [showedMovies, setShowedMovies] = useState(savedMovies);
+    const [filteredMovies, setFilteredMovies] = useState(showedMovies);
+    const [searchQuery, setSearchQuery] = useState('');
+    const location = useLocation();
 
   const handleSearchSubmit = (inputValue) => {
     if (inputValue.trim().length === 0) {
-      setPopupMessage('Нужно ввести ключевое слово');
+      setPopupMessage('Необходимо ввести ключевое слово');
       setPopupIsOpen(true);
       return;
     }
 
     const moviesList = filterMovies(savedMovies, inputValue, shortMovies);
     setSearchQuery(inputValue);
-    if (moviesList.length === 0) {
-      setNotFound(true);
-      setPopupMessage('Ничего не найдено.');
-      setPopupIsOpen(true);
-    } else {
-      setNotFound(false);
-      setFilteredMovies(moviesList);
-      setShowedMovies(moviesList);
-    }
+      if (moviesList.length === 0) {
+        setNotFound(true);
+        setPopupMessage('Ничего не найдено');
+        setPopupIsOpen(true);
+      } else {
+        setNotFound(false);
+        setFilteredMovies(moviesList);
+        setShowedMovies(moviesList);
+      }
   }
 
   const handleShortFilms = () => {
@@ -74,29 +76,29 @@ function SavedMovies ({ isLoggedIn,  savedMovies,
 
     return (
       <>
-      <Header isLoggedIn={isLoggedIn} />
-      <section className="saved-movies">
-        <div className="saved-movies__content">
-          <SearchForm
-            onSearchMovies={handleSearchSubmit}
-            onFilter={handleShortFilms}
-            shortMovies={shortMovies}
-            isSavedMoviesPage={true}
-          />
-          {isLoading && (
-            <Preloader />
-          )}
-          {!isLoading && (
-            <MoviesCardList
+        <Header isLoggedIn={isLoggedIn} />
+        <section className="saved-movies">
+          <div className="saved-movies__content">
+            <SearchForm
+              onSearchMovies={handleSearchSubmit}
+              onFilter={handleShortFilms}
+              shortMovies={shortMovies}
               isSavedMoviesPage={true}
-              movies={showedMovies}
-              savedMovies={savedMovies}
-              onDelete={onDelete} 
             />
-          )}
-        </div>
-      </section>
-      <Footer />
+            {isLoading && (
+              <Preloader />
+            )}
+            {!isLoading && (
+              <MoviesCardList
+                isSavedMoviesPage={true}
+                movies={showedMovies}
+                savedMovies={savedMovies}
+                onDelete={onDelete} 
+              />
+            )}
+          </div>
+        </section>
+        <Footer />
       </>
     
   )

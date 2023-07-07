@@ -9,13 +9,14 @@ function MoviesCard ({
   onDelete,
   saved }) {
 
-   // изменения формата времени
+   // функция изменения формата времени
    function handleDurationFormat(mins) {
       return `${Math.floor(mins / 60)}ч ${mins % 60}м`;
    }
 
    const screenWidth = useScreenWidth();
    const [isMobile, setIsMobile] = useState(false);
+
    const handleSaveCard = () => {
      onSave(movie);
    };
