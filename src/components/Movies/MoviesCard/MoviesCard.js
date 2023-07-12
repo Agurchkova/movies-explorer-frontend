@@ -72,13 +72,6 @@ function MoviesCard ({
             onClick={handleAddCard}
           />
         )}
-        {isMobileScreen && !isSavedMoviesPage && !saved && (
-          <button
-            className='card__button card__button_active'
-            type='button'
-            onClick={handleAddCard}
-          />
-        )}   
       </div>
       <p className="card__duration">
         {handleDurationFormat(movie.duration)}
