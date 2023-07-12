@@ -7,48 +7,49 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import moviesApi from '../../utils/MoviesApi';
-import { filterMovies, filterShortMovies } from '../../utils/utils';
+import { findMovies, findShortMovies } from '../../utils/utils';
+import { NOTHING_FOUND_MSG, KEYWORD_REQUIRED_MSG } from '../../utils/constants';
 
 function Movies ({ 
   isLoggedIn, 
   onLoading, 
-  savedMovies,
-  onSave,
+  addedMovies,
+  isAdded,
   isLoading,
   setPopupMessage,
   setPopupIsOpen }) {
 
   const [shortMovies, setShortMovies] = useState(false);
-  const [initialMovies, setInitialMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
+  const [foundedMovies, setFoundedMovies] = useState([]);
   const [notFound, setNotFound] = useState(false);
   const [isAllMovies, setIsAllMovies] = useState([]);
   const location = useLocation();
 
-  const handleSetFilteredMovies = (movies, userQuery, shortMoviesCheckbox) => {
-    const moviesList = filterMovies(movies, userQuery, false);
+  const handleSearchMovies = (movies, userSearch, shortMoviesCheckbox) => {
+    const moviesList = findMovies(movies, userSearch, false);
     if (moviesList.length === 0) {
       setNotFound(true);
-      setPopupMessage('Ничего не найдено');
+      setPopupMessage(NOTHING_FOUND_MSG);
       setPopupIsOpen(true);
     } else {
       setNotFound(false);
     }
-    setInitialMovies(moviesList);
-    setFilteredMovies(
-      shortMoviesCheckbox ? filterShortMovies(moviesList) : moviesList
+    setAllMovies(moviesList);
+    setFoundedMovies(
+      shortMoviesCheckbox ? findShortMovies(moviesList) : moviesList
     );
     localStorage.setItem('movies', JSON.stringify(moviesList));
   }
 
-  const handleSearchSubmit = (inputValue) => {
-    if (inputValue.trim().length === 0) {
-      setPopupMessage('Необходимо ввести ключевое слово');
+  const handleSearchSubmit = (value) => {
+    if (value === undefined || value.length === 0) {
+      setPopupMessage(KEYWORD_REQUIRED_MSG);
       setPopupIsOpen(true);
       return;
     }
 
-    localStorage.setItem('movieSearch', inputValue);
+    localStorage.setItem('movieSearch', value);
     localStorage.setItem('shortMovies', shortMovies);
 
     if (isAllMovies.length === 0) {
@@ -58,9 +59,9 @@ function Movies ({
         .then(movies => {
           localStorage.setItem('allMovies', JSON.stringify(movies));
           setIsAllMovies(movies);
-          handleSetFilteredMovies(
+          handleSearchMovies(
             movies,
-            inputValue,
+            value,
             shortMovies
           );
         })
@@ -70,19 +71,19 @@ function Movies ({
         })
         .finally(() => onLoading(false));
     } else {
-      handleSetFilteredMovies(isAllMovies, inputValue, shortMovies);
+      handleSearchMovies(isAllMovies, value, shortMovies);
     }
   }
 
-  const handleShortFilms = () => {
+  const handleShortMovies = () => {
     setShortMovies(!shortMovies);
     if (!shortMovies) {
-      setFilteredMovies(filterShortMovies(initialMovies));
-      if (filterMovies.length === 0) {
+      setFoundedMovies(findShortMovies(allMovies));
+      if (findMovies.length === 0) {
         setNotFound(true);
       }
     } else {
-      setFilteredMovies(initialMovies);
+      setFoundedMovies(allMovies);
     }
     localStorage.setItem('shortMovies', !shortMovies);
   }
@@ -100,13 +101,13 @@ function Movies ({
       const movies = JSON.parse(
         localStorage.getItem('movies')
       );
-      setInitialMovies(movies);
+      setAllMovies(movies);
       if (
         localStorage.getItem('shortMovies') === 'true'
       ) {
-      setFilteredMovies(filterShortMovies(movies));
+        setFoundedMovies(findShortMovies(movies));
       } else {
-      setFilteredMovies(movies);
+        setFoundedMovies(movies);
       }
     }
   }, [location]);
@@ -118,7 +119,7 @@ function Movies ({
       <div className="movies__content">
       <SearchForm
         onSearchMovies={handleSearchSubmit}
-        onFilter={handleShortFilms}
+        onFilter={handleShortMovies}
         shortMovies={shortMovies}
       />
       {isLoading && (
@@ -127,9 +128,9 @@ function Movies ({
     {!isLoading &&
       <MoviesCardList 
         isSavedMoviesPage={false}
-        movies={filteredMovies}
-        savedMovies={savedMovies}
-        onSave={onSave}
+        movies={foundedMovies}
+        addedMovies={addedMovies}
+        isAdded={isAdded}
       />
       }
       </div>

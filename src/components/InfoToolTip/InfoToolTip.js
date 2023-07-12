@@ -1,15 +1,21 @@
 import './InfoToolTip.css';
 
-const InfoToolTip = ({ message, isPopupOpen, onPopupClose }) => {
+const InfoToolTip = 
+({ 
+  isPopupOpen, 
+  infoMessage, 
+  onPopupClose 
+}) => {
   return (
     <div className={`popup ${isPopupOpen && 'popup_opened'}`}>
       <div className="popup__container">
         <button
           className="popup__close-button" 
-          type="button" 
+          type="button"
+          aria-label="Закрыть окно попапа"
           onClick={onPopupClose} 
         />
-        <p>{JSON.stringify(message)}</p>
+        <p>{infoMessage}</p>
       </div>
     </div>
   );

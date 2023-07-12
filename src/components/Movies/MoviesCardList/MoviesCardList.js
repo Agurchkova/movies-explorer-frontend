@@ -1,47 +1,49 @@
 import { useEffect, useState } from 'react';
-import useScreenWidth from '../../../hooks/useScreenWidth';
+import useScreenWidthController from '../../../hooks/useScreenWidthController';
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
-import { checkSavedCard } from '../../../utils/utils';
+import { checkAddedCard } from '../../../utils/utils';
 
 import {
-  BIG_SCREEN_MOVIES_QTY,
-  MIDDLE_SCREEN_MOVIES_QTY,
-  SMALL_SCREEN_MOVIES_QTY,
-  MORE_MOVIES_BIG_SCREEN_QTY,
-  MORE_MOVIES_SMALL_SCREEN_QTY,
-  BIG_SCREEN,
-  SMALL_SCREEN
+  QUANTITY_MOVIES_DESKTOP,
+  QUANTITY_MOVIES_MIDDLE_SCREEN,
+  QUANTITY_MOVIES_MOBILE_SCREEN,
+  MORE_QUANTITY_MOVIES_DESKTOP,
+  MORE_QUANTITY_MOVIES_MOBILE_SCREEN,
+  WIDTH_DESKTOP_SCREEN,
+  WIDTH_MOBILE_SCREEN
 } from '../../../utils/constants';
 
 function MoviesCardList ({ 
   movies,
-  savedMovies,
-  onSave,
+  addedMovies,
+  isAdded,
   onDelete,
-  isSavedMoviesPage }) {
+  isSavedMoviesPage })
 
+{
+  const screenWidth = useScreenWidthController();
   const [showMovieList, setShowMovieList] = useState(movies);
-
-  const screenWidth = useScreenWidth();
-
   const searchedMoviesCount = movies ? movies.length : 0;
 
   const handleMoreClick = () => {
-    if (screenWidth > BIG_SCREEN) {
-      setShowMovieList(movies.slice(0, showMovieList.length + MORE_MOVIES_BIG_SCREEN_QTY))
+    if (screenWidth > WIDTH_DESKTOP_SCREEN) {
+      setShowMovieList(movies.slice
+        (0, showMovieList.length + MORE_QUANTITY_MOVIES_DESKTOP))
     } else {
-      setShowMovieList(movies.slice(0, showMovieList.length + MORE_MOVIES_SMALL_SCREEN_QTY))
+      setShowMovieList(movies.slice
+        (0, showMovieList.length + MORE_QUANTITY_MOVIES_MOBILE_SCREEN))
     }
   }
 
   useEffect(() => {
-    if (screenWidth > BIG_SCREEN) {
-      setShowMovieList(movies.slice(0, BIG_SCREEN_MOVIES_QTY))
-    } else if (screenWidth > SMALL_SCREEN && screenWidth <= BIG_SCREEN) {
-      setShowMovieList(movies.slice(0, MIDDLE_SCREEN_MOVIES_QTY));
-    } else if (screenWidth <= SMALL_SCREEN) {
-      setShowMovieList(movies.slice(0, SMALL_SCREEN_MOVIES_QTY));
+    if (screenWidth > WIDTH_DESKTOP_SCREEN) {
+      setShowMovieList(movies.slice(0, QUANTITY_MOVIES_DESKTOP))
+    } else if (screenWidth > WIDTH_MOBILE_SCREEN && screenWidth 
+        <= WIDTH_DESKTOP_SCREEN) {
+      setShowMovieList(movies.slice(0,QUANTITY_MOVIES_MIDDLE_SCREEN));
+    } else if (screenWidth <= WIDTH_MOBILE_SCREEN) {
+      setShowMovieList(movies.slice(0, QUANTITY_MOVIES_MOBILE_SCREEN));
     } else {
       setShowMovieList(movies);
     }
@@ -52,41 +54,28 @@ function MoviesCardList ({
       className="cards"
       aria-label="Секция с карточками фильмов"
     >
-      {/* {movies.length === 0 ? (
-        <p className="cards__list__not-found">
-          Извините, но&nbsp;запрошенный поиск не&nbsp;дал результатов. 
-          Расширьте критерии поиска и&nbsp;попробуйте снова
-        </p>
-      ) : (
-        <>
-          <ul
-            className={`cards__list ${
-              movies.length > 3 ? "cards__list_space-evenly" : ""
-            }`} */}
-          <ul
-            className="cards__list">
-            {showMovieList.sort().map(movie => {
-              return <MoviesCard
-                key={isSavedMoviesPage ? movie.movieId : movie.id}
-                movie={movie}
-                isSavedMoviesPage={isSavedMoviesPage}
-                onSave={onSave}
-                onDelete={onDelete}
-                saved={checkSavedCard(savedMovies, movie)}
-              />
-            })}
-          </ul>
-          {/* && showMovieList && searchedMoviesCount !== showMovieList.length */}
-          {!isSavedMoviesPage && (
-        <button
-          className="cards__button"
-          onClick={handleMoreClick}
-        >
-          Ещё
-        </button>
+      <ul
+        className="cards__list">
+          {showMovieList.sort().map(movie => {
+            return <MoviesCard
+              key={isSavedMoviesPage ? movie.movieId : movie.id}
+              movie={movie}
+              isSavedMoviesPage={isSavedMoviesPage}
+              isAdded={isAdded}
+              onDelete={onDelete}
+              saved={checkAddedCard(addedMovies, movie)}
+            />
+          })}
+          
+      </ul>
+        {!isSavedMoviesPage && showMovieList && 
+        searchedMoviesCount !== showMovieList.length && (
+          <button
+            className="cards__button-more"
+            onClick={handleMoreClick}>
+            Ещё
+          </button>
       )}
-        {/* </> */}
-      {/* // )} */}
     </section>
   )
 };

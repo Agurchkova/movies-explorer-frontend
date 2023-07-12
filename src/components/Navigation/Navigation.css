@@ -25,10 +25,6 @@
   color: #000000;
 }
 
-.navigation__movies_light a {
-  color: #FFFFFF;
-}
-
 .navigation__movies-link {
   font-weight: 400;
   text-decoration: none;
@@ -121,9 +117,6 @@
   display: none;
 }
 
-.navigation__burger-button_light {
-  background-image: url('../../images/burger-menu-light.svg');
-}
 
 @media screen and (max-width: 768px) {
   .navigation__movies,

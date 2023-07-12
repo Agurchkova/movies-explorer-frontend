@@ -3,6 +3,7 @@ import "./Profile.css";
 import Header from "../Header/Header";
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { REG_EXP_USER_NAME } from "../../utils/constants";
 
 function Profile ({ onUpdateUser, onSignOut, isLoggedIn }) {
   const currentUser = useContext(CurrentUserContext);
@@ -44,6 +45,7 @@ function Profile ({ onUpdateUser, onSignOut, isLoggedIn }) {
               placeholder="name"
               value={values.name || ''}
               onChange={handleChange}
+              pattern={REG_EXP_USER_NAME}
             />
           </div>
           <div className="profile__border-line"></div>

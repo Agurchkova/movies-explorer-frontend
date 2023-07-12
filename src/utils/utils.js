@@ -1,24 +1,27 @@
-export function filterShortMovies(movies) {
+export function findShortMovies(movies) {
+
   return movies.filter(movie => movie.duration < 40);
 }
 
-export function filterMovies(movies, userQuery, shortMoviesCheckbox) {
-  const moviesByUserQuery = movies.filter((movie) => {
+export function findMovies(movies, userSearch, shortMoviesCheckbox) {
+
+  const moviesByUserSearch = movies.filter((movie) => {
     const movieRu = String(movie.nameRU).toLowerCase().trim();
     const movieEn = String(movie.nameEN).toLowerCase().trim();
-    const userMovie = userQuery.toLowerCase().trim();
+    const userMovie = userSearch?.toLowerCase().trim();
+
     return movieRu.indexOf(userMovie) !== -1 || movieEn.indexOf(userMovie) !== -1;
   });
 
   if (shortMoviesCheckbox) {
-    return filterShortMovies(moviesByUserQuery);
+    return findShortMovies(moviesByUserSearch);
   } else {
-    return moviesByUserQuery;
+    return moviesByUserSearch;
   }
 }
 
-export const checkSavedCard = (moviesList, movie) => {
-  return moviesList.find((item) => {
-    return item.movieId === (movie.id || movie.movieId);
+export const checkAddedCard = (moviesList, movie) => {
+  return moviesList.find((card) => {
+    return card.movieId === (movie.id || movie.movieId);
   });
 }

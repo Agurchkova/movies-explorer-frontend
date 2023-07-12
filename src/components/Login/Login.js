@@ -57,7 +57,8 @@ function Login ({ onLogin }) {
             id="password"
             type="password"
             name="password"
-            minLength="8"
+            minLength={8}
+            maxLength={30}
             required
             value={values.password || ''}
             onChange={handleChange}

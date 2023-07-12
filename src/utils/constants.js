@@ -1,13 +1,30 @@
 export const MOVIES_API_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 export const BASE_API_URL = 'https://api.agurchkova.movies.nomoredomains.rocks';
+// export const BASE_API_URL = 'http://localhost:4000';
 
-export const SHORT_MOVIE_DURATION = 40;
-export const MINUTES_IN_HOUR = 60;
+export const _checkResponse = (res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+};
 
-export const BIG_SCREEN_MOVIES_QTY = 12;
-export const MIDDLE_SCREEN_MOVIES_QTY = 8;
-export const SMALL_SCREEN_MOVIES_QTY = 5;
-export const MORE_MOVIES_BIG_SCREEN_QTY = 3;
-export const MORE_MOVIES_SMALL_SCREEN_QTY = 2;
-export const BIG_SCREEN = 917;
-export const SMALL_SCREEN = 480;
+// regular expression
+export const REG_EXP_USER_NAME = "^[A-Za-zА-Яа-яЁё\\-\\s]+$";
+
+// desktops and quantities of movies on the screen
+export const QUANTITY_MOVIES_DESKTOP = 12;
+export const QUANTITY_MOVIES_MIDDLE_SCREEN = 8;
+export const QUANTITY_MOVIES_MOBILE_SCREEN = 5;
+export const MORE_QUANTITY_MOVIES_DESKTOP = 4;
+export const MORE_QUANTITY_MOVIES_MOBILE_SCREEN = 2;
+export const WIDTH_DESKTOP_SCREEN = 950;
+export const WIDTH_MOBILE_SCREEN = 450;
+
+// errors messages
+export const NOTHING_FOUND_MSG = 'Ничего не найдено';
+export const KEYWORD_REQUIRED_MSG = 'Необходимо ввести ключевое слово';
+export const QUERY_ERROR_MSG = 'Во&nbsp;время запроса произошла ошибка. Возможно, проблема с&nbsp;соединением или сервер недоступен. Подождите немного и&nbsp;попробуйте ещё раз';
+export const PROFILE_EDITED_MSG = 'Профиль успешно отредактирован!';
+export const PROFILE_EDIT_ERROR_MSG = 'При обновлении профиля произошла ошибка';
+export const WRONG_EMAIL_MSG = 'Введен некорректный адрес почты';

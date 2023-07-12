@@ -7,72 +7,81 @@ import Preloader from "../Preloader/Preloader";
 import Header from "../Header/Header";
 import "./SavedMovies.css";
 
-import { filterMovies, filterShortMovies } from '../../utils/utils';
+import { findMovies, findShortMovies } from '../../utils/utils';
+import { 
+  NOTHING_FOUND_MSG, 
+  KEYWORD_REQUIRED_MSG 
+} from '../../utils/constants';
 
 function SavedMovies ({ 
   isLoggedIn,  
-  savedMovies,
+  addedMovies,
   isLoading,
   onDelete,
   setPopupMessage,
-  setPopupIsOpen }) {
+  setPopupIsOpen })
 
+{
     const [shortMovies, setShortMovies] = useState(false);
     const [notFound, setNotFound] = useState(false);
-    const [showedMovies, setShowedMovies] = useState(savedMovies);
-    const [filteredMovies, setFilteredMovies] = useState(showedMovies);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [showedMovies, setShowedMovies] = useState(addedMovies);
+    const [foundedMovies, setFoundedMovies] = useState(showedMovies);
+    const [searchRequest, setSearchRequest] = useState('');
     const location = useLocation();
 
-  const handleSearchSubmit = (inputValue) => {
-    if (inputValue.trim().length === 0) {
-      setPopupMessage('Необходимо ввести ключевое слово');
+  const handleSearchSubmit = (value) => {
+    if (value === undefined || value.length === 0) {
+      setPopupMessage(KEYWORD_REQUIRED_MSG);
       setPopupIsOpen(true);
       return;
     }
 
-    const moviesList = filterMovies(savedMovies, inputValue, shortMovies);
-    setSearchQuery(inputValue);
+  const moviesList = findMovies(addedMovies, value, shortMovies);
+    setSearchRequest(value);
       if (moviesList.length === 0) {
         setNotFound(true);
-        setPopupMessage('Ничего не найдено');
+        setPopupMessage(NOTHING_FOUND_MSG);
         setPopupIsOpen(true);
       } else {
         setNotFound(false);
-        setFilteredMovies(moviesList);
+        setFoundedMovies(moviesList);
         setShowedMovies(moviesList);
       }
   }
 
-  const handleShortFilms = () => {
+  const handleShortMovies = () => {
     if (!shortMovies) {
       setShortMovies(true);
-      localStorage.setItem('shortSavedMovies', true);
-      setShowedMovies(filterShortMovies(filteredMovies));
-      filterShortMovies(filteredMovies).length === 0 ? setNotFound(true) : setNotFound(false);
+      localStorage.setItem('shortAddedMovies', true);
+      setShowedMovies(findShortMovies(foundedMovies));
+      findShortMovies(foundedMovies).length === 0 
+      ? setNotFound(true) 
+      : setNotFound(false);
     } else {
       setShortMovies(false);
-      localStorage.setItem('shortSavedMovies', false);
-      filteredMovies.length === 0 ? setNotFound(true) : setNotFound(false);
-      setShowedMovies(filteredMovies);
+      localStorage.setItem('shortAddedMovies', false);
+      foundedMovies.length === 0 
+      ? setNotFound(true) 
+      : setNotFound(false);
+      setShowedMovies(foundedMovies);
     }
   }
 
   useEffect(() => {
-    if (localStorage.getItem('shortSavedMovies') === 'true') {
+    if (localStorage.getItem('shortAddedMovies') === 'true') {
       setShortMovies(true);
-      setShowedMovies(filterShortMovies(savedMovies));
+      setShowedMovies(findShortMovies(addedMovies));
     } else {
       setShortMovies(false);
-      const moviesList = filterMovies(savedMovies, searchQuery, shortMovies);
+      const moviesList = findMovies(addedMovies, searchRequest, shortMovies);
       setShowedMovies(moviesList);
     }
-  }, [savedMovies, location, shortMovies]);
+  }, [addedMovies, location, shortMovies]);
 
   useEffect(() => {
-    setFilteredMovies(savedMovies);
-    savedMovies.length !== 0 ? setNotFound(false) : setNotFound(true);
-  }, [savedMovies]);
+    setFoundedMovies(addedMovies);
+    addedMovies.length !== 0 ? setNotFound(false) : setNotFound(true);
+  }, [addedMovies]);
 
     return (
       <>
@@ -81,7 +90,7 @@ function SavedMovies ({
           <div className="saved-movies__content">
             <SearchForm
               onSearchMovies={handleSearchSubmit}
-              onFilter={handleShortFilms}
+              onFilter={handleShortMovies}
               shortMovies={shortMovies}
               isSavedMoviesPage={true}
             />
@@ -92,7 +101,7 @@ function SavedMovies ({
               <MoviesCardList
                 isSavedMoviesPage={true}
                 movies={showedMovies}
-                savedMovies={savedMovies}
+                addedMovies={addedMovies}
                 onDelete={onDelete} 
               />
             )}

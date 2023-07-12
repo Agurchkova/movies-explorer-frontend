@@ -18,7 +18,7 @@ function Navigation ({ isLoggedIn }) {
         <>
           <div 
             className={location === "/" 
-            ? "navigation__movies navigation__movies_light" 
+            ? "navigation__movies" 
             : "navigation__movies"}>
             <Link
               to="/movies"

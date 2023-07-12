@@ -12,25 +12,25 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import InfoToolTip from "../InfoToolTip/InfoToolTip";
 import * as MainApi from "../../utils/MainApi";
+import { 
+  PROFILE_EDITED_MSG, 
+  PROFILE_EDIT_ERROR_MSG, 
+  QUERY_ERROR_MSG } from '../../utils/constants';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [savedMovies, setSavedMovies] = useState([]);
+  const [addedMovies, setAddedMovies] = useState([]);
   const [popupIsOpen, setPopupIsOpen] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    handleTokenCheck();
-  }, [isLoggedIn]);
-
   /// Функции авторизации пользователя
 
   // handleRegisterSignUp
-  const handleRegisterSignUp = (data) => {
+  function handleRegisterSignUp (data) {
     return MainApi.registerSignUp(data)
       .then(() => {
         handleAuthorizeSignIn(data);
@@ -42,33 +42,26 @@ function App() {
   };
 
   // handleAuthorizeSignIn
-  const handleAuthorizeSignIn = (data) => {
+  function handleAuthorizeSignIn (data) {
     return MainApi.authorizeSignIn(data)
       .then((data) => {
         setIsLoggedIn(true);
         localStorage.setItem('jwt', data.token);
         navigate("/movies", {replace: true})
-        Promise.all([MainApi.getData(data.token), MainApi.getSavedMovies(data.token)])
-          .then(([userInfo, userMovies]) => {
+        Promise.all([MainApi.getData(data.token), MainApi.getAddedMovies(data.token)])
+          .then(([userInfo, allMovies]) => {
+            const currentUserMovies = allMovies.filter
+              (movie => movie.owner === userInfo._id);
             setCurrentUser(userInfo);
-            localStorage.setItem('savedMovies', JSON.stringify(userMovies));
-            setSavedMovies(userMovies);
-            console.log(userMovies)
-
-            userMovies.map((m) => {
-              MainApi.deleteMovie(m.movieId, data.token)
-              .then((card) => {
-                console.log("DELETE CARD", card)
-              })
-              return(m)
-            })
+            localStorage.setItem('savedMovies', JSON.stringify(currentUserMovies));
+            setAddedMovies(currentUserMovies);
           })
           .catch(error => {
-            console.log(error);
+            console.log(error)
+            setPopupMessage(QUERY_ERROR_MSG);
+            setPopupIsOpen(true);
           })
-          .finally(() => {
-            setIsLoading(false);
-
+          .finally(() => {setIsLoading(false);
           })
       })
       .catch(error => {
@@ -77,39 +70,42 @@ function App() {
       });
   };
 
-    // handleTokenCheck
-    const handleTokenCheck = () => {
-      const jwt = localStorage.getItem('jwt');
-      MainApi.getData(jwt)
-        .then((data) => {
+  function handleTokenCheck () {
+    const jwt = localStorage.getItem('jwt');
+      Promise.all([MainApi.getData(jwt), MainApi.getAddedMovies(jwt)])
+        .then(([userInfo, allMovies]) => {
           setIsLoggedIn(true);
-          setCurrentUser(data)
-          navigate('/movies', { replace: true });
-        })
+          const currentUserMovies = allMovies.filter
+              (movie => movie.owner === userInfo._id);
+            setCurrentUser(userInfo)
+            // navigate('/movies', { replace: true });
+            setAddedMovies(currentUserMovies);
+          })
         .catch((err) => console.log(err));
-      MainApi.getSavedMovies(jwt)
-        .then((movies) => {
-          setSavedMovies(movies)
-        })
-        .catch((err) => console.log(err));
-      };
+  };
+
+  // авторизирует при открытии/перезагрузке страницы
+  useEffect(() => {
+    handleTokenCheck();
+  }, []);
 
   /// Функции с фильмами
 
-  // handleSaveMovie
-  const handleSaveMovie = (movie) => {
+  //handleClickMovie
+  function handleClickMovie (movie) {
     const jwt = localStorage.getItem('jwt');
-    const handledMovie = savedMovies.find(item => {
-      return item.movieId === movie.id
+    const handledMovie = addedMovies.find(card => {
+      return card.movieId === movie.id
     });
-    const isLiked = Boolean(handledMovie);
+    const isAdded = Boolean(handledMovie);
     const id = handledMovie ? handledMovie._id : null;
-    if (isLiked) {
+    if (isAdded) {
       MainApi.deleteMovie(id, jwt)
         .then((card) => {
-          const updatedSavedMovies = savedMovies.filter(item => card._id !== item._id);
-          localStorage.setItem('savedMovies', updatedSavedMovies);
-          setSavedMovies(updatedSavedMovies);
+          const updatedAddedMovies = addedMovies.filter
+          (item => card._id !== item._id);
+          localStorage.setItem('addedMovies', updatedAddedMovies);
+          setAddedMovies(updatedAddedMovies);
         })
         .catch(error => {
           setPopupMessage(error);
@@ -119,11 +115,9 @@ function App() {
           setIsLoading(false);
         });
     } else {
-      MainApi.saveMovie(movie, jwt)
-        .then((newSavedMovie) => {
-//          setSavedMovies((prev) => [...prev, newSavedMovie]);
-          setSavedMovies((prev) => [newSavedMovie]);
-
+      MainApi.addMovie(movie, jwt)
+        .then((newAddedMovie) => {
+          setAddedMovies((prev) => [...prev, newAddedMovie]);
         })
         .catch((error) => {
           setPopupMessage(error);
@@ -132,14 +126,15 @@ function App() {
     }
   }
   // handleDeleteMovie
-  const handleDeleteMovie = (movie) => {
+  function handleDeleteMovie (movie) {
     setIsLoading(true);
     const jwt = localStorage.getItem('jwt');
     MainApi.deleteMovie(movie._id, jwt)
       .then((card) => {
-        const updatedSavedMovies = savedMovies.filter(item => card._id !== item._id);
-        localStorage.setItem('savedMovies', updatedSavedMovies);
-        setSavedMovies(prev => updatedSavedMovies);
+        const updatedAddedMovies = addedMovies.filter
+        (item => card._id !== item._id);
+        localStorage.setItem('savedMovies', updatedAddedMovies);
+        setAddedMovies(updatedAddedMovies);
       })
       .catch(error => {
         setPopupMessage(error);
@@ -153,26 +148,54 @@ function App() {
   /// Функции попапа
 
   //handleClosePopup
-  const handleClosePopup = () => {
+  function handleClosePopup () {
     setPopupIsOpen(false);
     setPopupMessage('');
   };
 
+  useEffect(() => {
+    function closePopupByEsc(evt) {
+      if (evt.key === 'Escape') {
+        handleClosePopup();
+      }
+    }
+    if (popupIsOpen) {
+      document.addEventListener('keydown', closePopupByEsc);
+      return () => {
+        document.removeEventListener('keydown', closePopupByEsc);
+      }
+    }
+  }, [popupIsOpen]);
+
+  useEffect(() => {
+    function closeByClickOnOverlay(event) {
+      if (event.target.classList.contains('popup_opened')) {
+        handleClosePopup();
+      }
+    }
+    if (popupIsOpen) {
+      document.addEventListener('mousedown', closeByClickOnOverlay);
+      return () => {
+        document.removeEventListener('mousedown', closeByClickOnOverlay);
+      }
+    }
+  }, [popupIsOpen]);
+
   /// Функции для обновления данных пользователя
 
   //handleUpdateUserInfo
-  const handleUpdateUserInfo = (updatedData) => {
+  function handleUpdateUserInfo (updatedData) {
     const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
     MainApi.updateUserData(updatedData, jwt)
       .then((info) => {
         setCurrentUser(info);
-        setPopupMessage('Профиль успешно отредактирован!');
+        setPopupMessage(PROFILE_EDITED_MSG);
         setPopupIsOpen(true);
       })
       .catch(err => {
         console.log(err);
-        setPopupMessage({ message: 'При обновлении профиля произошла ошибка' });
+        setPopupMessage(PROFILE_EDIT_ERROR_MSG);
         setPopupIsOpen(true);
       })
       .finally(() => {
@@ -181,22 +204,25 @@ function App() {
   };
 
   //handleLogOut
-  const handleLogOut = () => {
+  function handleLogOut () {
     setIsLoggedIn(false);
     setCurrentUser({});
     setPopupMessage('');
-    setSavedMovies([]);
+    setAddedMovies([]);
     localStorage.clear();
     navigate('/', { replace: true })
   };
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider 
+      value={currentUser}>
       <div className="App">
         <Routes>
           <Route 
             index element={
-              <Main />
+              <Main 
+                isLoggedIn={isLoggedIn}
+              />
             } 
           />
          <Route
@@ -217,26 +243,15 @@ function App() {
               />
             }
           />
-          <Route path="/movies" element={
+          <Route 
+            path="/movies" element={
               <ProtectedRoute 
                 component={Movies} 
                   isLoggedIn={isLoggedIn} 
                   isLoading={isLoading}
                   onLoading={setIsLoading}
-                  savedMovies={savedMovies}
-                  onSave={handleSaveMovie}
-                  onDelete={handleDeleteMovie}
-                  setPopupMessage={setPopupMessage}
-                  setPopupIsOpen={setPopupIsOpen}
-              />
-            }
-          />
-          <Route path="/saved-movies" element={
-              <ProtectedRoute 
-                component={SavedMovies} 
-                  isLoggedIn={isLoggedIn}
-                  isLoading={isLoading}
-                  savedMovies={savedMovies}
+                  addedMovies={addedMovies}
+                  isAdded={handleClickMovie}
                   onDelete={handleDeleteMovie}
                   setPopupMessage={setPopupMessage}
                   setPopupIsOpen={setPopupIsOpen}
@@ -244,12 +259,25 @@ function App() {
             }
           />
           <Route 
-            path="*" 
-            element={
-              <NotFoundPage />
-            } 
+            path="/saved-movies" element={
+              <ProtectedRoute 
+                component={SavedMovies} 
+                  isLoggedIn={isLoggedIn}
+                  isLoading={isLoading}
+                  addedMovies={addedMovies}
+                  onDelete={handleDeleteMovie}
+                  setPopupMessage={setPopupMessage}
+                  setPopupIsOpen={setPopupIsOpen}
+              />
+            }
           />
-          <Route path="/profile" element={
+          <Route 
+            path="*" element={
+              <NotFoundPage />
+            }
+          />
+          <Route 
+            path="/profile" element={
               <ProtectedRoute 
                 component={Profile} 
                   isLoggedIn={isLoggedIn}
@@ -263,7 +291,7 @@ function App() {
         <InfoToolTip
           isPopupOpen={popupIsOpen}
           onPopupClose={handleClosePopup}
-          message={popupMessage}
+          infoMessage={popupMessage}
         />
       </div>
     </CurrentUserContext.Provider>

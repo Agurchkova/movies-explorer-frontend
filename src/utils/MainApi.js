@@ -1,16 +1,10 @@
-import { BASE_API_URL } from "./constants";
+import { BASE_API_URL, _checkResponse } from "./constants";
 
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
 };
 
-const _checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-}
 
 export const registerSignUp = ({ name, email, password }) => {
     return fetch(`${BASE_API_URL}/signup`, {
@@ -56,7 +50,7 @@ export const updateUserData = (data, jwt) => {
   }).then((res) => _checkResponse(res));
 };
 
-export const getSavedMovies = (jwt) => {
+export const getAddedMovies = (jwt) => {
   return fetch(`${BASE_API_URL}/movies`, {
     method: 'GET',
     headers: {
@@ -66,7 +60,7 @@ export const getSavedMovies = (jwt) => {
   }).then((res) => _checkResponse(res));
 };
 
-export const saveMovie = async (movie, jwt) => {
+export const addMovie = async (movie, jwt) => {
   return fetch(`${BASE_API_URL}/movies`, {
     method: 'POST',
     headers: {

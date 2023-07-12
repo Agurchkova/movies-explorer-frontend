@@ -1,4 +1,6 @@
 import { useState, useCallback } from "react";
+import isEmail from 'validator/es/lib/isEmail';
+import { WRONG_EMAIL_MSG } from '../utils/constants';
 
 export default function useFormWithValidation () {
   const [values, setValues] = useState({});
@@ -7,6 +9,15 @@ export default function useFormWithValidation () {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
+    if (name === 'email') {
+      if (!isEmail(value)) {
+        event.target.setCustomValidity(WRONG_EMAIL_MSG);
+      } else {
+        event.target.setCustomValidity('');
+      }
+    }
+
     setValues({
       ...values, [name]: value,
     });
@@ -29,6 +40,6 @@ export default function useFormWithValidation () {
   );
 
   return {
-    values, errors, handleChange, isValid, resetForm
+    values, setValues, errors, handleChange, isValid, setIsValid, resetForm
   };
 };

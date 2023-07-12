@@ -1,24 +1,24 @@
 import "./MoviesCard.css";
 import { useState, useEffect } from 'react';
-import useScreenWidth from '../../../hooks/useScreenWidth';
+import useScreenWidthController from '../../../hooks/useScreenWidthController';
 
 function MoviesCard ({  
   isSavedMoviesPage,
+  saved,
   movie,
-  onSave,
-  onDelete,
-  saved }) {
-
+  isAdded,
+  onDelete}) 
+{
    // функция изменения формата времени
    function handleDurationFormat(mins) {
       return `${Math.floor(mins / 60)}ч ${mins % 60}м`;
    }
 
-   const screenWidth = useScreenWidth();
-   const [isMobile, setIsMobile] = useState(false);
+   const screenWidth = useScreenWidthController();
+   const [isMobileScreen, setIsMobileScreen] = useState(false);
 
-   const handleSaveCard = () => {
-     onSave(movie);
+   const handleAddCard = () => {
+    isAdded(movie);
    };
  
    const handleDeleteCard = () => {
@@ -27,9 +27,9 @@ function MoviesCard ({
  
    useEffect(() => {
      if (screenWidth < 786) {
-       setIsMobile(true);
+      setIsMobileScreen(true);
      } else {
-       setIsMobile(false);
+      setIsMobileScreen(false);
      }
    }, [screenWidth]);
 
@@ -53,7 +53,7 @@ function MoviesCard ({
         {saved && !isSavedMoviesPage &&
           <button
             className="card__button card__button_active"
-            onClick={handleSaveCard}
+            onClick={handleAddCard}
             type="button"
             aria-label="Добавить в сохранённые фильмы"
           />}
@@ -66,16 +66,17 @@ function MoviesCard ({
           />
           ) : (
           <button
-            className={!saved ? 'card__button' : 'card__button_hidden'}
+            className={!saved ? 'card__button' 
+            : 'card__button_hidden'}
             type='button'
-            onClick={handleSaveCard}
+            onClick={handleAddCard}
           />
         )}
-        {isMobile && !isSavedMoviesPage && !saved && (
+        {isMobileScreen && !isSavedMoviesPage && !saved && (
           <button
             className='card__button card__button_active'
             type='button'
-            onClick={handleSaveCard}
+            onClick={handleAddCard}
           />
         )}   
       </div>

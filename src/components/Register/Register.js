@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Register.css";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import logo from "../../images/logo.svg";
+import { REG_EXP_USER_NAME } from "../../utils/constants";
 
 function Register ({ onRegister }) {
   const { values, errors, handleChange, isValid } = useFormWithValidation();
@@ -39,10 +40,12 @@ function Register ({ onRegister }) {
             id="name"
             type="text"
             minLength={2}
+            maxLength={30}
             required
             name="name"
             value={values.name || ''}
             onChange={handleChange}
+            pattern={REG_EXP_USER_NAME}
           />
           <span 
             className="register__error">{errors.name}
@@ -72,7 +75,8 @@ function Register ({ onRegister }) {
             id="password"
             type="password"
             name="password"
-            minLength={6}
+            minLength={8}
+            maxLength={30}
             required
             value={values.password || ''}
             onChange={handleChange}

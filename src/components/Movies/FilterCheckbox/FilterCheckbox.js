@@ -1,17 +1,17 @@
 import "./FilterCheckbox.css";
 
-function FilterCheckbox ({ isMovieFilter, onFilter }) {
+function FilterCheckbox ({ isFiltered, onFilter }) {
   return (
-    <section className="filter">
+    <section className="filter-checkbox">
       <input
-        className="filter__checkbox"
+        className="filter-checkbox__input"
         type="checkbox"
         name="checkbox"
         onChange={onFilter}
-        checked={isMovieFilter}
+        checked={isFiltered}
       />
       <label
-        className="filter__label"
+        className="filter-checkbox__label"
         htmlFor="checkbox">
         Короткометражки
       </label>
