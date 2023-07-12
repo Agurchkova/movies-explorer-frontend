@@ -27,6 +27,23 @@ function App() {
 
   const navigate = useNavigate();
 
+  // авторизирует при открытии/перезагрузке страницы
+  useEffect(() => {
+    handleTokenCheck();
+  }, []);
+
+  // добавляет фильмы пользователя на страницу
+  useEffect(() => {
+      if (isLoggedIn) {
+        const jwt = localStorage.getItem('jwt');
+        MainApi.getAddedMovies(jwt)
+        .then(allMovies => setAddedMovies(
+          allMovies.filter(movie => movie.owner === currentUser._id)
+        ))
+        .catch((err) => console.log(err))
+      }
+    }, [isLoggedIn, currentUser])
+
   /// Функции авторизации пользователя
 
   // handleRegisterSignUp
@@ -72,22 +89,13 @@ function App() {
 
   function handleTokenCheck () {
     const jwt = localStorage.getItem('jwt');
-      Promise.all([MainApi.getData(jwt), MainApi.getAddedMovies(jwt)])
-        .then(([userInfo, allMovies]) => {
-          setIsLoggedIn(true);
-          const currentUserMovies = allMovies.filter
-              (movie => movie.owner === userInfo._id);
-            setCurrentUser(userInfo)
-            // navigate('/movies', { replace: true });
-            setAddedMovies(currentUserMovies);
-          })
-        .catch((err) => console.log(err));
-  };
-
-  // авторизирует при открытии/перезагрузке страницы
-  useEffect(() => {
-    handleTokenCheck();
-  }, []);
+    MainApi.getData(jwt)
+      .then((data) => {
+        setIsLoggedIn(true);
+        setCurrentUser(data)
+      })
+      .catch((err) => console.log(err));
+    };
 
   /// Функции с фильмами
 
@@ -153,6 +161,7 @@ function App() {
     setPopupMessage('');
   };
 
+  //закрывает попап по нажатию на кнопку Escape
   useEffect(() => {
     function closePopupByEsc(evt) {
       if (evt.key === 'Escape') {
@@ -167,6 +176,7 @@ function App() {
     }
   }, [popupIsOpen]);
 
+  //закрывает попап по нажатию на область вне попапа
   useEffect(() => {
     function closeByClickOnOverlay(event) {
       if (event.target.classList.contains('popup_opened')) {

@@ -5,7 +5,8 @@ import Preloader from '../Preloader/Preloader';
 const  ProtectedRoute = ({ component: Component, ...props }) => {
   return (
     props.isLoading ? <Preloader /> : props.isLoggedIn ? 
-    <Component {...props} /> : <Navigate to="/" replace />
+    <Component {...props} /> : <Navigate to="/" replace /> ? 
+    <Component {...props} /> : <Navigate to="?" replace />
 )};
 
 export default ProtectedRoute;
