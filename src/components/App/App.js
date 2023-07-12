@@ -198,8 +198,8 @@ function App() {
     const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
     MainApi.updateUserData(updatedData, jwt)
-      .then((info) => {
-        setCurrentUser(info);
+      .then(() => {
+        setCurrentUser(updatedData);
         setPopupMessage(PROFILE_EDITED_MSG);
         setPopupIsOpen(true);
       })

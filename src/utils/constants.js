@@ -23,7 +23,7 @@ export const WIDTH_MOBILE_SCREEN = 450;
 // errors messages
 export const NOTHING_FOUND_MSG = 'Ничего не найдено';
 export const KEYWORD_REQUIRED_MSG = 'Необходимо ввести ключевое слово';
-export const QUERY_ERROR_MSG = 'Во&nbsp;время запроса произошла ошибка. Возможно, проблема с&nbsp;соединением или сервер недоступен. Подождите немного и&nbsp;попробуйте ещё раз';
+export const QUERY_ERROR_MSG = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз';
 export const PROFILE_EDITED_MSG = 'Профиль успешно отредактирован!';
 export const PROFILE_EDIT_ERROR_MSG = 'При обновлении профиля произошла ошибка';
 export const WRONG_EMAIL_MSG = 'Введен некорректный адрес почты';

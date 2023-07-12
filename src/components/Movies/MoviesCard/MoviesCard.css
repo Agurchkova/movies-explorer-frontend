@@ -68,7 +68,7 @@
   .card__button_delete {
     background-image: url('../../../images/cross.svg');
     border: none;
-    background-color: #FFFFFF;
+    background-color: #F9F9F9;
     cursor: pointer;
   }
   

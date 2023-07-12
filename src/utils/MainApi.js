@@ -5,7 +5,6 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-
 export const registerSignUp = ({ name, email, password }) => {
     return fetch(`${BASE_API_URL}/signup`, {
       method: 'POST',
