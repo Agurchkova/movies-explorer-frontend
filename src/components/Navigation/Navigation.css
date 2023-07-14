@@ -54,8 +54,8 @@
 
 .navigation__signin-button {
   padding: 8px 20px;
-  background-color: #3456F3;
-  color: #FFFFFF;
+  background-color: #3456f3;
+  color: #ffffff;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
@@ -70,9 +70,9 @@
   transform: scale(1.2);
 }
 
-.navigation__signin-button:focus-visible  {
+.navigation__signin-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3456F3;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3456f3;
 }
 
 .navigation__account-button {
@@ -84,7 +84,7 @@
   color: #000000;
   border: none;
   border-radius: 40px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   text-decoration: none;
   cursor: pointer;
   transition: 0.3s ease;
@@ -92,11 +92,12 @@
 }
 
 .navigation__account-button::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -4px;
   right: 0.4%;
-  background: center / 11px no-repeat url('../../images/account-icon.svg') #F4F4F4;
+  background: center / 11px no-repeat url("../../images/account-icon.svg")
+    #f4f4f4;
   width: 26px;
   height: 26px;
   border-radius: 50px;
@@ -108,7 +109,7 @@
 
 .navigation__burger-button {
   background: none;
-  background-image: url('../../images/burger_menu__icon.svg');
+  background-image: url("../../images/burger_menu__icon.svg");
   width: 44px;
   height: 44px;
   border: none;
@@ -116,7 +117,6 @@
   transition: 0.3s ease;
   display: none;
 }
-
 
 @media screen and (max-width: 768px) {
   .navigation__movies,

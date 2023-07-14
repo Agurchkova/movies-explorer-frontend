@@ -10,17 +10,16 @@ import Footer from "../Footer/Footer";
 function Main({ isLoggedIn }) {
   return (
     <>
-    <Header isLoggedIn={isLoggedIn} />
-    <main className="main">
-      <Promo />
-      <AboutProject />
-      <Techs />
-      <AboutMe />
-      <Portfolio />
-    </main>
-    <Footer />
+      <Header isLoggedIn={isLoggedIn} />
+      <main className="main">
+        <Promo />
+        <AboutProject />
+        <Techs />
+        <AboutMe />
+        <Portfolio />
+      </main>
+      <Footer />
     </>
-    
   );
 }
 

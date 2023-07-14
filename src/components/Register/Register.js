@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 import logo from "../../images/logo.svg";
 import { REG_EXP_USER_NAME } from "../../utils/constants";
 
-function Register ({ onRegister }) {
+function Register({ onRegister }) {
   const { values, errors, handleChange, isValid } = useFormWithValidation();
 
   const handleSubmit = (event) => {
@@ -15,25 +15,16 @@ function Register ({ onRegister }) {
 
   return (
     <>
-    <section className="register">
-      <div className="register__header">
-        <Link to="/">
-          <img
-            className="register__logo"
-            src={logo}
-            alt="Логотип"
-          />
-        </Link>
-        <h1 
-          className="register__title">Добро пожаловать!
-        </h1>
-      </div>
-      <form 
-        className="form register__form" 
-          onSubmit={handleSubmit}>
-          <label 
-            className="register__label" 
-            htmlFor="name">Имя
+      <section className="register">
+        <div className="register__header">
+          <Link to="/">
+            <img className="register__logo" src={logo} alt="Логотип" />
+          </Link>
+          <h1 className="register__title">Добро пожаловать!</h1>
+        </div>
+        <form className="form register__form" onSubmit={handleSubmit}>
+          <label className="register__label" htmlFor="name">
+            Имя
           </label>
           <input
             className="register__input"
@@ -43,16 +34,13 @@ function Register ({ onRegister }) {
             maxLength={30}
             required
             name="name"
-            value={values.name || ''}
+            value={values.name || ""}
             onChange={handleChange}
             pattern={REG_EXP_USER_NAME}
           />
-          <span 
-            className="register__error">{errors.name}
-          </span>
-          <label 
-            className="register__label" 
-            htmlFor="email">E-mail
+          <span className="register__error">{errors.name}</span>
+          <label className="register__label" htmlFor="email">
+            E-mail
           </label>
           <input
             className="register__input"
@@ -60,15 +48,12 @@ function Register ({ onRegister }) {
             type="email"
             name="email"
             required
-            value={values.email || ''}
+            value={values.email || ""}
             onChange={handleChange}
           />
-          <span 
-            className="register__error">{errors.email}
-          </span>
-          <label 
-            className="register__label" 
-            htmlFor="password">Пароль
+          <span className="register__error">{errors.email}</span>
+          <label className="register__label" htmlFor="password">
+            Пароль
           </label>
           <input
             className="register__input"
@@ -78,32 +63,27 @@ function Register ({ onRegister }) {
             minLength={8}
             maxLength={30}
             required
-            value={values.password || ''}
+            value={values.password || ""}
             onChange={handleChange}
           />
-          <span 
-            className="register__error">{errors.password}
-          </span>
-          <button 
-            className="register__signup-button" 
-            type="submit" 
-            disabled={!isValid}>Зарегистрироваться
+          <span className="register__error">{errors.password}</span>
+          <button
+            className="register__signup-button"
+            type="submit"
+            disabled={!isValid}
+          >
+            Зарегистрироваться
           </button>
         </form>
-        <div 
-          className="register__caption">
-            <span>
-              Уже зарегистрированы?
-            </span>
-          <Link 
-            to="/signin" 
-            className="register__signin-button">Войти
+        <div className="register__caption">
+          <span>Уже зарегистрированы?</span>
+          <Link to="/signin" className="register__signin-button">
+            Войти
           </Link>
         </div>
-    </section>
+      </section>
     </>
-
-  )
-};
+  );
+}
 
 export default Register;

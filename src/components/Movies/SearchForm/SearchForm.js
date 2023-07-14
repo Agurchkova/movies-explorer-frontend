@@ -32,15 +32,22 @@ function SearchForm ({
     onSearchMovies(values.searchRequest, shortMovies, resetForm);
   }
   
+  // useEffect(() => {
+  //   if (location.pathname === '/movies' && localStorage.getItem('movieSearch')) {
+  //     const searchValue = localStorage.getItem('movieSearch');
+  //     values.searchRequest = searchValue && setValues({keyWord: searchValue});
+  //     setIsValid(true);
+  //   } else {
+  //       setValues({keyWord: ''});
+  //     }
+  // }, [location]);
+
   useEffect(() => {
-    if (location.pathname === '/movies'
-      && localStorage.getItem('movieSearch')) {
+    if (location.pathname === '/movies' && localStorage.getItem('movieSearch')) {
       const searchValue = localStorage.getItem('movieSearch');
-      values.searchRequest = searchValue && setValues({keyWord: searchValue});
+      values.searchRequest = searchValue;
       setIsValid(true);
-    } else {
-        setValues({keyWord: ''});
-      }
+    }
   }, [location]);
 
   return (
@@ -50,7 +57,7 @@ function SearchForm ({
         <>
           <form 
             className="search__form form" 
-            name="search-saved-movie"
+            name="search-saved-movie-form"
             onSubmit={handleAddedMoviesSubmit} 
             noValidate>
               <button
@@ -74,9 +81,10 @@ function SearchForm ({
                 disabled={disabled}
               />
               <FilterCheckbox 
-                isFiltered={shortMovies} 
+                isFilter={shortMovies}
                 onFilter={onFilter} 
                 disabled={disabled}
+                
               />
           </form>
         </>
@@ -84,7 +92,7 @@ function SearchForm ({
         <>
         <form 
           className="search__form form" 
-          name="search-movie"
+          name="search-movie-form"
           onSubmit={handleFormSubmit} 
           noValidate>
             <button
@@ -108,7 +116,7 @@ function SearchForm ({
               disabled={disabled}
             />
             <FilterCheckbox 
-              isFilter={shortMovies} 
+              isFilter={shortMovies}
               onFilter={onFilter} 
               disabled={disabled}
             />

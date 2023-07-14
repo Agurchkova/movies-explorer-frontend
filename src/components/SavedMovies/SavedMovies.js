@@ -24,12 +24,13 @@ function SavedMovies ({
 {
     const [shortMovies, setShortMovies] = useState(false);
     const [notFound, setNotFound] = useState(false);
+    const [allMovies, setAllMovies] = useState([]);
     const [showedMovies, setShowedMovies] = useState(addedMovies);
     const [foundedMovies, setFoundedMovies] = useState(showedMovies);
     const [searchRequest, setSearchRequest] = useState('');
     const location = useLocation();
 
-  const handleSearchSubmit = (value) => {
+  const handleSearchSubmit = (value, shortMoviesCheckbox) => {
     if (value === undefined || value.length === 0) {
       setPopupMessage(KEYWORD_REQUIRED_MSG);
       setPopupIsOpen(true);
@@ -44,16 +45,16 @@ function SavedMovies ({
         setPopupIsOpen(true);
       } else {
         setNotFound(false);
-        setFoundedMovies(moviesList);
-        setShowedMovies(moviesList);
       }
-  }
+      setShowedMovies(moviesList);
+  };
 
   const handleShortMovies = () => {
     if (!shortMovies) {
       setShortMovies(true);
       localStorage.setItem('shortAddedMovies', true);
-      setShowedMovies(findShortMovies(foundedMovies));
+      setFoundedMovies(findShortMovies(foundedMovies));
+      console.log(foundedMovies)
       findShortMovies(foundedMovies).length === 0 
       ? setNotFound(true) 
       : setNotFound(false);
@@ -64,9 +65,10 @@ function SavedMovies ({
       ? setNotFound(true) 
       : setNotFound(false);
       setShowedMovies(foundedMovies);
+      setFoundedMovies(foundedMovies);
     }
   }
-
+  
   useEffect(() => {
     if (localStorage.getItem('shortAddedMovies') === 'true') {
       setShortMovies(true);

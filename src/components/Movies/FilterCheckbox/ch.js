@@ -1,7 +1,6 @@
 import "./FilterCheckbox.css";
 
-function FilterCheckbox ({ isFilter, onFilter }) {
-
+function FilterCheckbox ({ isFiltered, onFilter }) {
   return (
     <section className="filter-checkbox">
       <input
@@ -9,7 +8,7 @@ function FilterCheckbox ({ isFilter, onFilter }) {
         type="checkbox"
         name="checkbox"
         onChange={onFilter}
-        checked={isFilter}
+        checked={isFiltered}
       />
       <label
         className="filter-checkbox__label"
