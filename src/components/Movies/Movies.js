@@ -10,16 +10,20 @@ import moviesApi from '../../utils/MoviesApi';
 import { findMovies, findShortMovies } from '../../utils/utils';
 import { NOTHING_FOUND_MSG, KEYWORD_REQUIRED_MSG } from '../../utils/constants';
 
-function Movies ({ 
-  isLoggedIn, 
-  onLoading, 
+function Movies ({
+  isLoggedIn,
+  onLoading,
   addedMovies,
   isAdded,
   isLoading,
   setPopupMessage,
   setPopupIsOpen }) {
 
-  const [shortMovies, setShortMovies] = useState(false);
+ const short = localStorage.getItem('shortAddedMovies')
+  === null || localStorage.getItem('shortAddedMovies') 
+  === 'false' ? false : true;
+
+  const [shortMovies, setShortMovies] = useState(short);
   const [allMovies, setAllMovies] = useState([]);
   const [foundedMovies, setFoundedMovies] = useState([]);
   const [notFound, setNotFound] = useState(false);
@@ -122,11 +126,12 @@ function Movies ({
         onFilter={handleShortMovies}
         shortMovies={shortMovies}
       />
-      {isLoading && (
-          <Preloader />
-        )}
+      {isLoading ?
+        <Preloader />
+        : notFound
+      }
     {!isLoading &&
-      <MoviesCardList 
+      <MoviesCardList
         isSavedMoviesPage={false}
         movies={foundedMovies}
         addedMovies={addedMovies}

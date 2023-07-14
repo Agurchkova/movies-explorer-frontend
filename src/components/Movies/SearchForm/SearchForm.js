@@ -13,7 +13,6 @@ function SearchForm ({
 {
   const { 
     values, 
-    setValues, 
     handleChange, 
     resetForm, 
     isValid, 
@@ -32,16 +31,6 @@ function SearchForm ({
     onSearchMovies(values.searchRequest, shortMovies, resetForm);
   }
   
-  // useEffect(() => {
-  //   if (location.pathname === '/movies' && localStorage.getItem('movieSearch')) {
-  //     const searchValue = localStorage.getItem('movieSearch');
-  //     values.searchRequest = searchValue && setValues({keyWord: searchValue});
-  //     setIsValid(true);
-  //   } else {
-  //       setValues({keyWord: ''});
-  //     }
-  // }, [location]);
-
   useEffect(() => {
     if (location.pathname === '/movies' && localStorage.getItem('movieSearch')) {
       const searchValue = localStorage.getItem('movieSearch');
