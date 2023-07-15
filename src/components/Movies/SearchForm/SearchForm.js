@@ -70,7 +70,7 @@ function SearchForm ({
                 disabled={disabled}
               />
               <FilterCheckbox 
-                isFilter={shortMovies}
+                isMovieFilter={shortMovies}
                 onFilter={onFilter} 
                 disabled={disabled}
                 
@@ -105,7 +105,7 @@ function SearchForm ({
               disabled={disabled}
             />
             <FilterCheckbox 
-              isFilter={shortMovies}
+              isMovieFilter={shortMovies}
               onFilter={onFilter} 
               disabled={disabled}
             />
