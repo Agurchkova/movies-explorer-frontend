@@ -2,7 +2,7 @@
   padding: 18px 70px;
   display: flex;
   align-items: center;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 .header__logo {
@@ -17,9 +17,9 @@
   transform: scale(1.2);
 }
 
-.header__logo:focus-visible  {
+.header__logo:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3456F3;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3456f3;
 }
 
 @media screen and (max-width: 768px) {
@@ -33,4 +33,3 @@
     padding: 18px 14px;
   }
 }
-

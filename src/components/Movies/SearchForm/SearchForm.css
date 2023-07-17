@@ -1,124 +1,125 @@
 .search {
-    padding: 70px 70px 0;
-  }
-  
-  .search__line {
-    border-bottom: 1px solid #E8E8E8;
-    margin-top: 69px;
-  }
-  
-  .search__form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border:  1.5px solid #FFFFFF;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
-    border-radius: 9px;
-    height: 72px;
-    padding: 0 30px 0 19px;
-    background-color: #FFFFFF;
-  }
-  
-  .search__form:focus-within {
-    border-color: #2BE080; 
-  }
-  
-  .search__input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 18px;
-    line-height: 20px;
-    color: #A0A0A0;
-  }
-  
+  padding: 70px 70px 0;
+}
+
+.search__line {
+  border-bottom: 1px solid #e8e8e8;
+  margin-top: 69px;
+}
+
+.search__form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+  border-radius: 9px;
+  height: 72px;
+  padding: 0 30px 0 19px;
+  background-color: #ffffff;
+}
+
+.search__form:focus-within {
+  border-color: #2be080;
+}
+
+.search__input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 18px;
+  line-height: 20px;
+  color: #a0a0a0;
+}
+
+.search__button {
+  background-image: url("../../../images/find.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  border-right: 1px solid #cbcbcb;
+  width: 66px;
+  height: 34px;
+  padding: 0 19px 0 0;
+  margin-right: 29px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  outline: none;
+}
+
+.search__button:hover {
+  opacity: 0.8;
+}
+
+.search__button-left {
+  background-image: url("../../../images/icon__find.svg");
+  width: 34px;
+  height: 34px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 0 5px;
+  outline: none;
+}
+
+@media screen and (max-width: 924px) {
   .search__button {
-    background-image: url("../../../images/find.svg");
-    background-color: transparent;
-    background-repeat: no-repeat;
-    border: none;
-    border-right: 1px solid #CBCBCB;
-    width: 66px;
-    height: 34px;
-    padding: 0 19px 0 0;
-    margin-right: 29px;
-    cursor: pointer;
-    transition: .3s ease;
+    width: 75px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .search {
+    padding: 80px 30px 0;
   }
 
-  .search__button:hover {
-    opacity: 0.8;
+  .search__button {
+    width: 80px;
+    margin-right: 19px;
   }
-  
   .search__button-left {
-    background-image: url("../../../images/icon__find.svg");
-    width: 34px;
-    height: 34px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-    padding: 0 5px;
+    padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .search__button {
+    width: 90px;
   }
 
-  @media screen and (max-width: 924px) {
-    .search__button {
-      width: 75px;
-    }
+  .search__button-left {
+    display: none;
   }
 
-  @media screen and (max-width: 768px) {
-    .search {
-      padding: 80px 30px 0;
-    }
-
-    .search__button {
-      width: 80px;
-      margin-right: 19px;
-    }
-    .search__button-left {
-      padding: 0 10px;
-    }
+  .search__button {
+    border-right: none;
+    width: 40px;
+    margin: 0;
+    padding: 0;
   }
-  
-  @media screen and (max-width: 555px) {
-    .search__button {
-      width: 90px;
-    }
+  .search__line {
+    margin-top: 109px;
+  }
+}
 
-    .search__button-left {
-      display: none;
-    }
-
-    .search__button {
-      border-right: none;
-      width: 40px;
-      margin: 0;
-      padding: 0;
-    }
-    .search__line {
-      margin-top: 109px;
-    }
+@media screen and (max-width: 420px) {
+  .search {
+    padding: 80px 10px 0;
   }
 
-  @media screen and (max-width: 420px) {
-    .search {
-      padding: 80px 10px 0;
-    }
-  
-    .search__form {
-      margin-bottom: 45px;
-      padding: 0 19px;
-    }
-
-    .search__input {
-      font-size: 14px;
-      width: 120px;
-    }
-
-    .search__button-left {
-      display: none;
-      margin-right: 0;
-    }
+  .search__form {
+    margin-bottom: 45px;
+    padding: 0 19px;
   }
 
+  .search__input {
+    font-size: 14px;
+    width: 120px;
+  }
+
+  .search__button-left {
+    display: none;
+    margin-right: 0;
+  }
+}

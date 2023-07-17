@@ -5,7 +5,7 @@
 }
 
 .promo__container {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   margin: 20px 40px 18px;
   border-radius: 10px;
   padding: 160px 0 30px;
@@ -37,7 +37,7 @@
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   border-radius: 10px;
   color: #000000;
   margin: 0;
@@ -68,7 +68,7 @@
 @media screen and (max-width: 420px) {
   .promo__container {
     margin: 14px 14px 0;
-    padding: 220px 0 17px;;
+    padding: 220px 0 17px;
   }
 
   .promo__title {
@@ -81,7 +81,7 @@
   .promo__list {
     column-gap: 6px;
   }
-  
+
   .promo__list-link {
     font-size: 10px;
     margin: 0;
