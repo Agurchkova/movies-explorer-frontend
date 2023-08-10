@@ -9,7 +9,7 @@
 ##### и положением чек-бокса для отбора короткометражных фильмов формы поиска. Регистрация, авторизация, добавление фильмов в избранное
 #####  происходит через взаимодействие с разработанным API. В формах реализована валидация данных.
 
-<img align="center" src="https://github.com/Agurchkova/Agurchkova/blob/main/movies.jpg" alt="Movies" width="1012"/>
+<img align="center" src="https://github.com/Agurchkova/Agurchkova/blob/main/movies.jpg" width="1012" alt="Movies"/>
 
 ## Технологический стек:
 #####  <li>HTML</li>
