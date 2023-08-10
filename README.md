@@ -18,6 +18,9 @@
 #####  <li>React</li>
 #####  <li>React Router</li>
 #####  <li>Create React App</li>
+#####  <li>Node.js</li>
+#####  <li>MongoDB</li>
+#####  <li>Express</li>
 #####  <li>Адаптивная верстка с использованием медиа-запросов</li>
 #####  <li>Семантическая вёрстка</li>
 
